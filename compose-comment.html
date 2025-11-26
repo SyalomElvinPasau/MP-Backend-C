@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>reddiX - My Forum Gw</title>
+    <link rel="stylesheet" href="compose-comment-style.css">
+</head>
+
+<body>
+    <!--  HEADER  -->
+    <header>
+        <p id="reddix">reddiX</p>
+
+        <!-- small anchored popup -->
+
+
+        <!-- profile -->
+        <div class="logo" id="logo">
+            <div class="profile-menu closed" id="profileMenu">
+
+                <img class="menu-pfp" src="icon/user.png">
+                <p class="menu-username">Username</p>
+                <p class="menu-role">Role</p>
+                <button id="closeProfileMenu">x</button>
+            </div>
+            <img id="profile" class="openProfile" src="icon/user.png">
+        </div>
+
+
+    </header>
+
+    <div class="app">
+        <!-- SIDEBAR -->
+        <aside id="sidebar">
+            <a href="#" class="menu-item new-post">
+                <img class="menu-logo" src="icon/post.png" alt="Post">
+                <p>New Post</p>
+            </a>
+
+            <a href="#" class="menu-item user-list">
+                <img class="menu-logo" src="icon/user-list.png" alt="User-List">
+                <p>User List</p>
+            </a>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main>
+
+            <form id="commentForm" enctype="multipart/form-data" class="comment-form">
+                <div>
+                    <p class="caption"> Compose Comment:</p>
+                </div>
+
+                <!-- text input -->
+                <textarea id="text" name="text" placeholder="Write a comment..." maxlength="1000"></textarea>
+
+                <!-- picture upload -->
+                <img id="preview" class="image-preview">
+                <input id="image" name="image" type="file" accept="image/*">
+
+                <div class="actions">
+                    <button id="submitBtn" type="submit" class="btn pill">Publish Comment</button>
+                    <button id="clearBtn" type="button" class="btn pill ghost">Clear Form</button>
+                </div>
+            </form>
+
+
+        </main>
+    </div>
+    <script src="compose-comment-script.js"></script>
+</body>
+
+</html>

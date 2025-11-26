@@ -1,0 +1,203 @@
+body {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: white;
+}
+
+header {
+    background: white;
+    height: 5%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-bottom: solid 2px #DFD0B8;
+}
+
+p {
+    color: #222831;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+}
+
+#reddix {
+    align-items: center;
+    justify-content: center;
+    margin-left: 2rem;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.profile-menu {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #c8b9a2;
+    border-radius: 1.5rem;
+    margin: 5px;
+    padding: 5px;
+    position: absolute;
+    right: 100%;
+    gap: 0.5rem;
+}
+
+.closed {
+    pointer-events: none;
+    display: none;
+}
+
+.logo {
+    position: relative;
+    display: flex;
+    height: 100%;
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
+.logo:hover {
+    background-color: #c8b9a2;
+    border-radius: 1.5rem;
+}
+
+#message,
+#notif,
+#profile {
+    width: 2rem;
+    height: 2rem;
+    padding: 1rem;
+    justify-content: center;
+    align-items: center;
+    color: #DFD0B8;
+}
+
+.logo {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+#profile,
+.menu-pfp {
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+
+
+.app {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+#sidebar {
+    width: 220px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+    border-right: 2px solid #DFD0B8;
+    box-sizing: border-box;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    margin: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.menu-item:hover {
+    background-color: #c8b9a2;
+    border-radius: 1.5rem;
+}
+
+.menu-item.home {
+    background-color: #DFD0B8;
+    border-radius: 1.5rem;
+}
+
+.menu-logo {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.75rem;
+}
+
+main {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.username {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.profile-pic {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+}
+
+
+.image-preview {
+    max-width: 350px;
+    max-height: 350px;
+    object-fit: contain;
+    display: none;
+    margin-top: 10px;
+    border-radius: 6px;
+}
+
+.comment-form {
+    background-color: #DFD0B8;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.caption {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.btn {
+    color: #222831;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-size: 0.8rem;
+
+    padding: 7px 11px;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 50px;      /* pill shape */
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+/* hover effect */
+.btn:hover {
+    background: #f0f0f0;      /* light gray */
+    border-color: #bbb;
+}
+
+/* optional: spacing between buttons */
+.actions {
+    display: flex;
+    gap: 10px;
+}
