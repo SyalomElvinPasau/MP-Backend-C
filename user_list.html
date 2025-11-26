@@ -1,0 +1,95 @@
+<!-- <!DOCTYPE html>
+<html>
+
+<head>
+    <title>reddiX - user list</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">User List</a></li>
+            </ul>
+        </div>
+        <main>
+            <div class="userlist">
+                <ul>
+                    <li><p>username</p> <input type="button"></li>
+                    <li><p>username2</p> <input type="button"></li>
+                    <li><p>username3</p> <input type="button"></li>
+                </ul>
+            </div>
+        </main>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>reddiX - User List</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="user-list.css">
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header>
+        <p id="reddix">reddiX</p>
+
+        <div class="logo" id="logo">
+            <img id="profile" class="openProfile" src="icon/user.png">
+        </div>
+    </header>
+
+    <div class="app">
+
+        <!-- SIDEBAR -->
+        <aside id="sidebar">
+            <a href="home.html" class="menu-item">
+                <img class="menu-logo" src="icon/post.png">
+                <p>New Post</p>
+            </a>
+
+            <a href="#" class="menu-item home">
+                <img class="menu-logo" src="icon/user-list.png">
+                <p>User List</p>
+            </a>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main>
+            <h2>Users</h2>
+
+            <div class="user-list">
+                <!-- Contoh user card -->
+                <div class="user-card">
+                    <img src="icon/profile.png" class="profile-pic">
+                    <p class="name">username1</p>
+                    <button class="view-btn">Delete</button>
+                </div>
+
+                <div class="user-card">
+                    <img src="icon/profile.png" class="profile-pic">
+                    <p class="name">username2</p>
+                    <button class="view-btn">Delete</button>
+                </div>
+
+                <div class="user-card">
+                    <img src="icon/profile.png" class="profile-pic">
+                    <p class="name">username3</p>
+                    <button class="view-btn">Delete</button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="home-script.js"></script>
+</body>
+
+</html>

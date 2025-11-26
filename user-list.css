@@ -1,0 +1,33 @@
+.user-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.user-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: #DFD0B8;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.user-card .name {
+    flex: 1;
+    font-size: 1rem;
+}
+
+.view-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #c8b9a2;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.view-btn:hover {
+    background-color: #b7a78f;
+}
