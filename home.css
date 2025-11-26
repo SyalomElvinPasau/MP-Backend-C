@@ -29,6 +29,24 @@ p {
     font-weight: bold;
 }
 
+.profile-menu {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #c8b9a2;
+    border-radius: 1.5rem;
+    margin: 5px;
+    padding: 5px;
+    position: absolute;
+    right: 100%;
+    gap: 0.5rem;
+}
+
+.closed {
+    pointer-events: none;
+    display: none;
+}
 
 .logo {
     position: relative;
@@ -36,6 +54,11 @@ p {
     height: 100%;
     margin-left: auto;
     margin-right: 1rem;
+}
+
+.logo:hover {
+    background-color: #c8b9a2;
+    border-radius: 1.5rem;
 }
 
 #message,
@@ -55,7 +78,8 @@ p {
     align-items: center;
 }
 
-#profile {
+#profile,
+.menu-pfp {
     width: 1.5rem;
     height: 1.5rem;
     cursor: pointer;
