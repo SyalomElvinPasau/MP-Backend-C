@@ -1,111 +1,100 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>reddiX - My Forum Gw</title>
-        <link rel="stylesheet" href="home.css">
-    </head>
 
-    <body>
-        <!--  HEADER  -->
-        <header>
-            <p id="reddix">reddiX</p>
+<head>
+    <title>reddiX - My Forum Gw</title>
+    <link rel="stylesheet" href="home.css">
+</head>
 
-            <!-- Search bar -->
-            <div class="search-bar">
-                <img id="search-icon" src="icon/search.png">
-                <input type="text" placeholder="Search in reddiX...">
-            </div>
+<body>
+    <!--  HEADER  -->
+    <header>
+        <p id="reddix">reddiX</p>
 
-            <!-- notif, message, profile -->
-            <div class="logo">
-                <img id="message" src="icon/messages.png">
-                <img id="notif" src="icon/bell.png">
-                <img id="profile" src="icon/user.png">
-            </div>
-        </header>
 
-        <div class="app">
-            <!-- SIDEBAR -->
-            <aside id="sidebar">
-                <a href="#" class="menu-item home">
-                    <img class="menu-logo" src="icon/interface.png" alt="Home">
-                    <p>Home</p>
-                </a>
+        <!-- profile -->
+        <div class="logo">
 
-                <a href="#" class="menu-item trending">
-                    <img class="menu-logo" src="icon/money-graph-with-up-arrow.png" alt="Trending">
-                    <p>Trending</p>
-                </a>
-
-                <a href="#" class="menu-item bookmark">
-                    <img class="menu-logo" src="icon/bookmark.png" alt="Bookmark">
-                    <p>Bookmark</p>
-                </a>
-            </aside>
-
-            <!-- MAIN CONTENT -->
-            <main>
-                <!-- Post 1 -->
-                <article class="post">
-                    <div class="username">
-                        <img class="profile-pic" src="icon/profile.png" alt="User 1">
-                        <p>User 1</p>
-                    </div>
-
-                    <div class="posted-content">
-                        <p class="caption">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis praesentium temporibus consequuntur eum! Inventore vel rerum, officia excepturi, optio illo voluptates voluptatum eveniet ad iusto error veritatis aliquam, praesentium odio.</p>
-                        <img src="post/unpar.jpg">
-                    </div>
-
-                    <div class="activity">
-                        <div class="like">
-                            <img src="icon/heart.png">
-                            <p>12.7k</p>
-                        </div>
-
-                        <div class="comment">
-                            <img src="icon/comment.png">
-                            <p>572</p>
-                        </div>
-
-                        <div class="bookmark">
-                            <img src="icon/bookmark.png">
-                            <p>893</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Post 2 -->
-                <article class="post">
-                    <div class="username">
-                        <img class="profile-pic" src="icon/profile.png" alt="User 1">
-                        <p>User 2</p>
-                    </div>
-
-                    <div class="posted-content">
-                        <p class="caption">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis praesentium temporibus consequuntur eum! Inventore vel rerum, officia excepturi, optio illo voluptates voluptatum eveniet ad iusto error veritatis aliquam, praesentium odio.</p>
-                        <img src="post/unpar.jpg">
-                    </div>
-
-                    <div class="activity">
-                        <div class="like">
-                            <img src="icon/heart.png">
-                            <p>12.7k</p>
-                        </div>
-
-                        <div class="comment">
-                            <img src="icon/comment.png">
-                            <p>572</p>
-                        </div>
-
-                        <div class="bookmark">
-                            <img src="icon/bookmark.png">
-                            <p>893</p>
-                        </div>
-                    </div>
-                </article>
-
-            </main>
+            <img id="profile" src="icon/user.png">
         </div>
-    </body>
+    </header>
+
+    <div class="app">
+        <!-- SIDEBAR -->
+        <aside id="sidebar">
+            <a href="#" class="menu-item new-post">
+                <img class="menu-logo" src="icon/post.png" alt="Post">
+                <p>New Post</p>
+            </a>
+
+            <a href="#" class="menu-item user-list">
+                <img class="menu-logo" src="icon/user-list.png" alt="User-List">
+                <p>User List</p>
+            </a>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main>
+            <!-- Post 1 -->
+            <article class="post">
+                <div class="username">
+                    <img class="profile-pic" src="icon/profile.png" alt="User 1">
+                    <p>User 1</p>
+                </div>
+
+                <div class="posted-content">
+                    <p class="caption">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis praesentium
+                        temporibus consequuntur eum! Inventore vel rerum, officia excepturi, optio illo voluptates
+                        voluptatum eveniet ad iusto error veritatis aliquam, praesentium odio.</p>
+                    <img src="post/unpar.jpg">
+                </div>
+
+                <div class="activity">
+                    <div class="like">
+                        <img src="icon/heart.png">
+                        <p>12.7k</p>
+                    </div>
+
+                    <div class="comment">
+                        <img src="icon/comment.png">
+                        <p>572</p>
+                    </div>
+
+
+                </div>
+            </article>
+
+            <!-- Post 2 -->
+            <article class="post">
+                <div class="username">
+                    <img class="profile-pic" src="icon/profile.png" alt="User 1">
+                    <p>User 2</p>
+                </div>
+
+                <div class="posted-content">
+                    <p class="caption">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis praesentium
+                        temporibus consequuntur eum! Inventore vel rerum, officia excepturi, optio illo voluptates
+                        voluptatum eveniet ad iusto error veritatis aliquam, praesentium odio.</p>
+                    <img src="post/unpar.jpg">
+                </div>
+
+                <div class="activity">
+                    <div class="like">
+                        <img src="icon/heart.png">
+                        <p>12.7k</p>
+                    </div>
+
+                    <div class="comment">
+                        <img src="icon/comment.png">
+                        <p>572</p>
+                    </div>
+
+
+                </div>
+            </article>
+
+        </main>
+    </div>
+</body>
+
 </html>
