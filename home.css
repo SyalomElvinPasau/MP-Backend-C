@@ -161,6 +161,56 @@ main {
     border-radius: 50%;
 }
 
+/* Publish Post */
+
+.posting-section {
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+.posting-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+input#textArea {
+    background-color: transparent;
+    width: 100%;
+    height: 2rem;
+    border-radius: 0.5rem;
+    padding-left: 1rem;
+    font-size: 1rem;
+    resize: none;
+}
+
+input#addPhoto {
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+}
+
+.posting-button {
+    display: flex;
+    align-items: end;
+}
+
+.posting-button #postButton {
+    padding: 0.75rem;
+    background-color: #222831;
+    color: white;
+    border-radius: 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* End Publish Post */
+
 .posted-content {
     display: flex;
     flex-direction: column;
