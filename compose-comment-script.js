@@ -54,3 +54,10 @@ textarea.addEventListener("input", function () {
     this.style.height = "auto";          // reset height
     this.style.height = this.scrollHeight + "px"; // adjust to content
 });
+
+// gk jadi post comment
+const post = document.querySelector('.post');
+// redirect to home
+post.addEventListener('click', () => {
+    window.location.href = 'home.html'; // change your URL here
+});
