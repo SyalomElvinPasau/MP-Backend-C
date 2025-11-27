@@ -10,3 +10,12 @@ profileIcon.addEventListener("click", () => {
 closeProfileMenu.addEventListener("click", () => {
     profileMenu.classList.add("closed");
 });
+
+// pindah page comment
+const items = document.querySelectorAll(".comment");
+
+items.forEach(el => {
+    el.addEventListener("click", () => {
+        window.location.href = "compose-comment.html";
+    });
+})
