@@ -32,9 +32,9 @@
     <div class="app">
         <!-- SIDEBAR -->
         <aside id="sidebar">
-            <a href="#" class="menu-item new-post">
-                <img class="menu-logo" src="icon/post.png" alt="Post">
-                <p>New Post</p>
+            <a href="home.html" class="menu-item home">
+                <img class="menu-logo" src="icon/interface.png" alt="Home">
+                <p>Home</p>
             </a>
 
             <a href="user_list.html" class="menu-item user-list">
@@ -45,6 +45,24 @@
 
         <!-- MAIN CONTENT -->
         <main>
+
+            <!-- Publish Post -->
+            <div class="posting-section">
+                <div class="posting-profile">
+                    <img class="profile-pic" src="icon/profile.png" alt="User 1">
+                </div>
+
+                <div class="posting-content">
+                    <input type="text" id="textArea" placeholder="Apa yang sedang terjadi?">
+                    <input type="image" id="addPhoto" src="icon/photo.png" alt="">
+                </div>
+
+                <div class="posting-button">
+                    <button id="postButton">Posting</button>
+                </div>
+            </div>
+            <!-- End Publish Post -->
+
             <!-- Post 1 -->
             <article class="post">
                 <div class="username">
@@ -69,7 +87,6 @@
                         <img src="icon/comment.png">
                         <p>572</p>
                     </div>
-
 
                 </div>
             </article>
