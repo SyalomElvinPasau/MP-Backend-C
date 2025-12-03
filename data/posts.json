@@ -2,7 +2,7 @@
   {
     "id": "p1",
     "userId": "u1",
-    "content": "Hello world! This is my first post 😄",
+    "content": "Hello world! This is my first post",
     "imgUrl": "/uploads/unpar.jpg",
     "likes": [
       "u2",
