@@ -9,3 +9,4 @@ export async function readJSON(path) {
 export async function writeJSON(path, data) {
     return writeFile(path, JSON.stringify(data, null, 2), "utf8");
 }
+
