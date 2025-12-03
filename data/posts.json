@@ -1,43 +1,51 @@
 [
-    {
-      "id": "p1",
-      "userId": "u1",
-      "content": "Hello world! This is my first post 😄",
-      "likes": ["u2", "u3"],
-      "comments": [
-        {
-          "id": "c1",
-          "userId": "u2",
-          "content": "Welcome!"
-        }
-      ]
-    },
-    {
-      "id": "p2",
-      "userId": "u2",
-      "content": "I love learning JavaScript!",
-      "likes": [],
-      "comments": []
-    },
-    {
-      "id": "p3",
-      "userId": "u3",
-      "content": "Anyone up for coffee later?",
-      "likes": ["u1"],
-      "comments": [
-        {
-          "id": "c2",
-          "userId": "u1",
-          "content": "Sure, where?"
-        }
-      ]
-    },
-    {
-      "id": "p4",
-      "userId": "admin1",
-      "content": "Admin announcement: Be respectful to everyone!",
-      "likes": [],
-      "comments": []
-    }
-  ]
-  
+  {
+    "id": "p1",
+    "userId": "u1",
+    "content": "Hello world! This is my first post",
+    "imgUrl": "/uploads/unpar.jpg",
+    "likes": [
+      "u2",
+      "u3"
+    ],
+    "comments": [
+      {
+        "id": "c1",
+        "userId": "u2",
+        "content": "Welcome!"
+      }
+    ]
+  },
+  {
+    "id": "p2",
+    "userId": "u2",
+    "content": "I love learning JavaScript!",
+    "imgUrl": "",
+    "likes": [],
+    "comments": []
+  },
+  {
+    "id": "p3",
+    "userId": "u3",
+    "content": "Anyone up for coffee later?",
+    "imgUrl": "",
+    "likes": [
+      "u1"
+    ],
+    "comments": [
+      {
+        "id": "c2",
+        "userId": "u1",
+        "content": "Sure, where?"
+      }
+    ]
+  },
+  {
+    "id": "p4",
+    "userId": "admin1",
+    "content": "Admin announcement: Be respectful to everyone!",
+    "imgUrl": "",
+    "likes": [],
+    "comments": []
+  }
+]

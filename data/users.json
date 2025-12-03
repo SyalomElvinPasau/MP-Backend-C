@@ -4,15 +4,13 @@
     "username": "alice",
     "password": "12345",
     "role": "user",
-    "profilePicture": "/images/alice.png",
-    "sessionId": "session_0d0125282b7931d5416f6b1925d42e3b"
+    "sessionId": ""
   },
   {
     "id": "u2",
     "username": "bob",
     "password": "password",
     "role": "user",
-    "profilePicture": "/images/bob.png",
     "sessionId": ""
   },
   {
@@ -20,7 +18,6 @@
     "username": "charlie",
     "password": "qwerty",
     "role": "user",
-    "profilePicture": "/images/charlie.png",
     "sessionId": ""
   },
   {

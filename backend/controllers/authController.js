@@ -78,20 +78,27 @@ export function login(request, response) {
     });
 }
 
-//TODO implement function
-//deletes sessionID from user in users.json
-//Set cookie to expired
-//redirect to homepage
 export async function logout(request, response) {
-
-    const user = await getUserFromCookies(request);
     const users = await readJSON(USERS_JSON);
+    const user = await getUserFromCookies(request);  // may return null
 
     if (user) {
-        delete user.sessionId;
-        await writeJSON(USERS_JSON, users);
+        // Find user in the JSON file
+        const index = users.findIndex(u => u.id === user.id);
+
+        if (index !== -1) {
+            // Set sessionId to empty string instead of deleting key
+            users[index].sessionId = "";
+            await writeJSON(USERS_JSON, users);
+            console.log("User logged out:", users[index].username);
+        } else {
+            console.log("Logout: user not found in users.json anymore.");
+        }
+    } else {
+        console.log("Logout called but no active session.");
     }
 
+    // Clear the cookie (this works even if user wasn’t found)
     response.writeHead(302, {
         "Set-Cookie": "sessionId=; HttpOnly; Path=/; Max-Age=0",
         "Location": "/login"
