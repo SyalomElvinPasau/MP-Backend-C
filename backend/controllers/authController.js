@@ -78,10 +78,6 @@ export function login(request, response) {
     });
 }
 
-//TODO implement function
-//deletes sessionID from user in users.json
-//Set cookie to expired
-//redirect to homepage
 export async function logout(request, response) {
     const users = await readJSON(USERS_JSON);
     const user = await getUserFromCookies(request);  // may return null
