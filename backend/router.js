@@ -23,6 +23,10 @@ const MIME_TYPES = {
 export async function handle(request, response) {
     const method = request.method;
     const path = request.url;
+    //debugging
+    // console.log("Request URL:", request.url, " and Method: ", method);
+
+
 
     const ext = extname(path);
     if (MIME_TYPES[ext]) {
@@ -51,16 +55,22 @@ export async function handle(request, response) {
 
     } else if (method === "POST" && path === "/login") {            //User Logging in
         return login(request, response);
+
     } else if (method === "GET" && path === "/logout") {             //User logging out
         return logout(request, response);
+
     } else if (method === "POST" && path === "/create-post") {      //user Creates a new post
         return createNewPost(request, response);
+
     } else if (method === "POST" && path === "/submit-comment") {  //user creates a new comment on a post
         return createNewComment(request, response);
+
     } else if (method === "POST" && path === "/delete-user") {      //admin deletes a user's account
         return deleteAccount(request, response);
+
     } else if (method === "POST" && path === "/delete-post") {       //admin deletes another user's post || user delete their own post
         return deletePost(request, response);
+
     } else if (method === "POST" && path === "/like-post") {         //User likes a post
         return likePost(request, response);
     }

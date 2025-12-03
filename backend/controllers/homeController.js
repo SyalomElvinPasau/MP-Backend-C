@@ -12,6 +12,7 @@ const HOME_HTML = join(__dirname, "../../frontend/home.html");
 //TODO
 //add logic to display posts that exist
 export async function renderHomePage(request, response) {
+
     const user = await getUserFromCookies(request);
 
     if (!user) {

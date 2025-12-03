@@ -14,19 +14,17 @@ function parseCookies(request) {
 
     const cookies = {};
 
-    const pairs = cookieHeader.split("; ")
-
-    for (const pair of pairs) {
-        const [key, value] = pair.split("=");
-        cookies[key] = value;
-    }
+    cookieHeader.split(";").forEach(cookie => {
+        const [key, ...rest] = cookie.trim().split("=");
+        cookies[key] = rest.join("=");
+    });
 
     return cookies;
-
 }
 
 export async function getUserFromCookies(request) {
     const cookies = parseCookies(request);
+    // console.log("Cookie: ", cookies);
     const sessionId = cookies.sessionId;
 
     const users = await readJSON(USERS_PATH);

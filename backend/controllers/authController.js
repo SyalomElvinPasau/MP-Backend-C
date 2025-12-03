@@ -67,6 +67,8 @@ export function login(request, response) {
 
         await writeJSON(USERS_JSON, users);
 
+        console.log("Setting cookie:", sessionId);
+
         response.writeHead(302, {
             "Set-Cookie": `sessionId=${sessionId}; HttpOnly; Path=/`,
             "Location": "/"
@@ -80,6 +82,6 @@ export function login(request, response) {
 //deletes sessionID from user in users.json
 //Set cookie to expired
 //redirect to homepage
-export function logout() {
-
+export function logout(request, response) {
+    
 }
