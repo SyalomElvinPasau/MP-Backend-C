@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const USERS_PATH = join(__dirname, "../../data/users.json");
 
-function parseCookies(request) {
+export function parseCookies(request) {
     const cookieHeader = request.headers?.cookie;
 
     if (!cookieHeader) return {};
