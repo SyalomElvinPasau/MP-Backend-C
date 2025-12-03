@@ -1,0 +1,35 @@
+[
+    {
+      "id": "u1",
+      "username": "alice",
+      "password": "12345",
+      "role": "user",
+      "profilePicture": "/images/alice.png",
+      "sessionId": ""
+    },
+    {
+      "id": "u2",
+      "username": "bob",
+      "password": "password",
+      "role": "user",
+      "profilePicture": "/images/bob.png",
+      "sessionId": ""
+    },
+    {
+      "id": "u3",
+      "username": "charlie",
+      "password": "qwerty",
+      "role": "user",
+      "profilePicture": "/images/charlie.png",
+      "sessionId": ""
+    },
+    {
+      "id": "admin1",
+      "username": "admin",
+      "password": "admin123",
+      "role": "admin",
+      "profilePicture": "/images/admin.png",
+      "sessionId": ""
+    }
+  ]
+  
