@@ -268,3 +268,18 @@ input#addPhoto {
     flex-direction: column;
     gap: 1.5rem;
 }
+
+.delete {
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: 2rem;
+}
+
+.delete>img:hover {
+    filter: brightness(0.8);
+}
+
+.delete>img {
+    width: 2rem;
+    height: 2rem;
+}

@@ -33,6 +33,9 @@ export async function renderHomePage(request, response) {
     const postsHTML = posts.map(post => {
         const postUser = users.find(u => u.id === post.userId);
 
+        const canDelete = (user.role === "admin" || user.id === post.userId);
+
+
         return `
             <article class="post">
                 <div class="username">
@@ -56,13 +59,18 @@ export async function renderHomePage(request, response) {
                         <p>${post.comments.length}</p>
                     </div>
 
+
+                    ${canDelete ? `
                     <div class="delete">
-                        <img src="/icon/delete.png" alt="">
+                        <img src="/icon/delete.png" class="delete-btn" data-id="${post.id}">
                     </div>
+                ` : ""}
+
                 </div>
             </article>
         `;
     }).join("");
+
 
     html = html.replace("{{POSTS}}", postsHTML);
 
