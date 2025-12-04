@@ -333,30 +333,3 @@ export async function deletePost(request, response) {
     response.writeHead(200)
     response.end("Deleted");
 }
-
-// export async function deletePost(request, response) {
-//     console.log("DELETE request received:", request.url);
-
-//     const url = new URL(request.url, `http://${request.headers.host}`);
-//     const postId = url.searchParams.get("id");
-
-//     console.log("postId from URL:", postId);
-
-//     if (!postId) {
-//         response.writeHead(400);
-//         return response.end("Missing ID");
-//     }
-
-//     const posts = await readJSON(POSTS_JSON);
-//     console.log("Available post IDs:", posts.map(p => p.id));
-
-//     const post = posts.find(p => p.id === postId);
-
-//     if (!post) {
-//         response.writeHead(404);
-//         return response.end("Post not found");
-//     }
-
-//     response.writeHead(200);
-//     response.end("Found post");
-// }
