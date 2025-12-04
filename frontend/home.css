@@ -253,7 +253,7 @@ input#addPhoto {
     cursor: pointer;
     margin-left: auto;
     margin-right: 2rem;
-}   
+}
 
 .delete>img:hover {
     filter: brightness(0.8);
@@ -283,4 +283,56 @@ input#addPhoto {
 .delete>img {
     width: 2rem;
     height: 2rem;
+}
+
+
+
+.image-preview {
+    max-width: 350px;
+    max-height: 350px;
+    object-fit: contain;
+    display: none;
+    margin-top: 10px;
+    border-radius: 6px;
+}
+
+.comment-form {
+    background-color: #DFD0B8;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.caption {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.btn {
+    color: #222831;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    font-size: 0.8rem;
+
+    padding: 7px 11px;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+/* hover */
+.btn:hover {
+    background: #f0f0f0;
+    border-color: #bbb;
+}
+
+/* spacing between buttons */
+.actions {
+    display: flex;
+    gap: 10px;
 }
