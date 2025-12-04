@@ -297,8 +297,6 @@ export async function likePost(request, response) {
 
 //TODO
 //implement delete post logics
-
-
 export async function deletePost(request, response) {
     const url = new URL(request.url, `http://${request.headers.host}`);
     const postId = url.searchParams.get("id");
@@ -328,9 +326,10 @@ export async function deletePost(request, response) {
         return response.end("Not allowed");
     }
 
+    //posts.splice(postId, 1);
     const updated = posts.filter(p => p.id !== postId);
     await writeJSON(POSTS_JSON, updated);
 
-    response.writeHead(200);
+    response.writeHead(200)
     response.end("Deleted");
 }
