@@ -1,34 +1,5 @@
 [
   {
-    "id": "p1",
-    "userId": "u1",
-    "content": "Hello world! This is my first post",
-    "imgUrl": "/uploads/unpar.jpg",
-    "likes": [
-      "u2",
-      "u3"
-    ],
-    "comments": [
-      {
-        "id": "c1",
-        "userId": "u2",
-        "content": "Welcome!"
-      },
-      {
-        "id": "c2",
-        "userId": "u1",
-        "content": "test",
-        "imgUrl": null
-      },
-      {
-        "id": "c3",
-        "userId": "u1",
-        "content": "garama",
-        "imgUrl": "/uploads/sdzjhr1saud8ksuoklxvk13kr.png"
-      }
-    ]
-  },
-  {
     "id": "p2",
     "userId": "u2",
     "content": "I love learning JavaScript!",
@@ -51,13 +22,5 @@
         "content": "Sure, where?"
       }
     ]
-  },
-  {
-    "id": "p4",
-    "userId": "admin1",
-    "content": "Admin announcement: Be respectful to everyone!",
-    "imgUrl": "",
-    "likes": [],
-    "comments": []
   }
 ]

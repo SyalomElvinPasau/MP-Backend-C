@@ -72,7 +72,7 @@ export async function renderHomePage(request, response) {
         return `
             <article class="post">
                 <div class="username">
-                    <img class="profile-pic" src="${postUser?.profilePicture || "/icon/profile.png"}">
+                    <img class="profile-pic" src="/icon/profile.png">
                     <p>${postUser?.username || "Unknown User"}</p>
                 </div>
 
@@ -109,7 +109,6 @@ export async function renderHomePage(request, response) {
 
 
     html = html.replace("{{POSTS}}", postsHTML);
-    html = html.replace("{{PROFILE_PIC_URL}}", user.profilePicture);
     html = html.replace("{{FORM}}", postFormHTML);
 
     if (user.role === "admin") {
