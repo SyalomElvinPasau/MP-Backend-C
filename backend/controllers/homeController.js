@@ -34,7 +34,7 @@ export async function renderHomePage(request, response) {
         const postUser = users.find(u => u.id === post.userId);
 
         const canDelete = (user.role === "admin" || user.id === post.userId);
-
+        const liked = post.likes.some(u => u.id === user.id);
 
         return `
             <article class="post">
@@ -50,12 +50,15 @@ export async function renderHomePage(request, response) {
 
                 <div class="activity">
                     <div class="like">
-                        <img src="/icon/heart.png">
+                    <img src="${liked ? '/icon/heart-filled.png' : '/icon/heart.png'}" class="like-btn" data-post-id="${post.id}">
+                    
                         <p>${post.likes.length}</p>
                     </div>
 
                     <div class="comment">
-                        <img src="/icon/comment.png">
+                        <a href="/compose-comment?postId=${post.id}">
+                            <img src="/icon/comment.png" class="comment-button">
+                        </a>
                         <p>${post.comments.length}</p>
                     </div>
 
@@ -73,14 +76,24 @@ export async function renderHomePage(request, response) {
 
 
     html = html.replace("{{POSTS}}", postsHTML);
+    html = html.replace("{{PROFILE_PIC_URL}}", user.profilePicture);
 
     if (user.role === "admin") {
         html = html.replace("{{ADMIN_BUTTON}}", `
+
+
+
         <a href="/user-list" class="menu-item user-list">
+
+
         <img class="menu-logo" src="/icon/user-list.png" alt="User-List">
+
+
         <p>User List</p>
-    </a>
-        `);
+
+
+    </a>`)
+
     } else {
         html = html.replace("{{ADMIN_BUTTON}}", "");
     }
@@ -88,7 +101,6 @@ export async function renderHomePage(request, response) {
     response.writeHead(200, {
         "Content-Type": "text/html",
         "Cache-Control": "no-store"
-
     });
     response.end(html);
 }

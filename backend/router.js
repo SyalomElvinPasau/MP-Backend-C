@@ -28,7 +28,9 @@ export async function handle(request, response) {
     //debugging
     // console.log("Request URL:", request.url, " and Method: ", method);
 
-
+    const fullUrl = new URL(request.url, `http://${request.headers.host}`);
+    const path = fullUrl.pathname;
+    const searchParams = fullUrl.searchParams;
 
     const ext = extname(path);
     if (MIME_TYPES[ext]) {
@@ -47,7 +49,9 @@ export async function handle(request, response) {
         return renderHomePage(request, response);
 
     } else if (method === "GET" && path === "/compose-comment") {   //User going to compose comment page
-        return renderCommentPage(request, response);
+        const postId = searchParams.get("postId");
+
+        return renderCommentPage(request, response, postId);
 
     } else if (method === "GET" && path === "/login") {      //User going to login page
         return renderLoginPage(request, response);
@@ -65,7 +69,9 @@ export async function handle(request, response) {
         return createNewPost(request, response);
 
     } else if (method === "POST" && path === "/submit-comment") {  //user creates a new comment on a post
-        return createNewComment(request, response);
+        const postId = searchParams.get("postId");
+
+        return createNewComment(request, response, postId);
 
     } else if (method === "POST" && path === "/delete-user") {      //admin deletes a user's account
         return deleteAccount(request, response);
