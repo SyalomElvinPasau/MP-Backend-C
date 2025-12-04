@@ -25,7 +25,6 @@
     "username": "admin",
     "password": "admin123",
     "role": "admin",
-    "profilePicture": "/images/admin.png",
-    "sessionId": "session_9ca816fbad02d7ab7f97caa1647e7e84"
+    "sessionId": ""
   }
 ]

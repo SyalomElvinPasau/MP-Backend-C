@@ -19,3 +19,14 @@ items.forEach(el => {
         window.location.href = "compose-comment.html";
     });
 })
+
+
+document.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("delete-btn")) {
+        const postId = e.target.dataset.id;
+
+        await fetch(`/delete-post?id=${postId}`, { method: "DELETE" });
+
+        location.reload();
+    }
+});
