@@ -1,8 +1,8 @@
 import { readFile } from "fs/promises";
 import { getUserFromCookies } from "../utils/cookies.js";
-import { parseForm } from "../utils/helpers.js";
 import { readJSON, writeJSON } from "../utils/json.js";
 import { generateId } from "../utils/helpers.js";
+import { uploadImg } from "../utils/helpers.js";
 
 //TODO
 //Implement data rendering logic
@@ -16,7 +16,6 @@ export async function renderCommentPage(request, response) {
     } catch (error) {
         response.writeHead(500, { "Content-Type": "text/plain" });
         return response.end("Error Loading Homepage")
-
     }
 
     //changes the user pfp to match the current user
@@ -53,15 +52,22 @@ export async function createNewPost(request, response) {
 
             const newId = generateId(jsonData);
 
-            if(postData.content === ""){
+            if(postData.content === "" && postData.imgUrl === null){
                 throw new Error("Post content is required");
+            }
+
+            if(postData.imgUrl === null){
+                postData.imgUrl = "";
+            }
+            else{
+                postData.imgUrl = uploadImg(postData.imgUrl);
             }
 
             const newData = {
                 id: newId,
                 userId: user.id,
-                content: postData.content || "",
-                imgUrl: "/uploads/"+postData.imgUrl || null,
+                content: postData.content,
+                imgUrl: postData.imgUrl,
                 likes: [],
                 comments: []    
             }
