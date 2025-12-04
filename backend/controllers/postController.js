@@ -55,7 +55,7 @@ export async function renderCommentPage(request, response, postId) {
         return `
             <div class="comment-item">
                 <div class="comment-user">
-                    <img class="comment-profile" src="${commentUser?.profilePicture || "/icon/profile.png"}">
+                    <img class="comment-profile" src="${"/icon/profile.png"}">
                     <p class="comment-username">${commentUser?.username || "Unknown User"}</p>
                 </div>
                 <p class="comment-content">${comment.content}</p>
@@ -69,7 +69,7 @@ export async function renderCommentPage(request, response, postId) {
     const postsHTML = `
             <article class="post">
                 <div class="username">
-                    <img class="profile-pic" src="${postUser?.profilePicture || "/icon/profile.png"}">
+                    <img class="profile-pic" src="${"/icon/profile.png"}">
                     <p>${postUser?.username || "Unknown User"}</p>
                 </div>
 
@@ -128,10 +128,23 @@ export async function renderCommentPage(request, response, postId) {
     html = html.replace("{{POST}}", postsHTML);
     html = html.replace("{{COMMENTS}}", allCommentsHTML);
     html = html.replace("{{FORM}}", commentFormHTML);
-    html = html.replace("{{PROFILE_PIC_URL}}", user.profilePicture);
 
     if (user.role === "admin") {
-        html = html.replace("{{ADMIN_BUTTON}}", "<button>Manage Users</button>");
+        html = html.replace("{{ADMIN_BUTTON}}", `
+
+
+
+        <a href="/user-list" class="menu-item user-list">
+
+
+        <img class="menu-logo" src="/icon/user-list.png" alt="User-List">
+
+
+        <p>User List</p>
+
+
+    </a>`)
+
     } else {
         html = html.replace("{{ADMIN_BUTTON}}", "");
     }
