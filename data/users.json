@@ -4,12 +4,7 @@
     "username": "alice",
     "password": "12345",
     "role": "user",
-<<<<<<< HEAD
-    "profilePicture": "/images/alice.png",
-    "sessionId": "session_45bfc95f1a847d7437f093181a4344b6"
-=======
-    "sessionId": ""
->>>>>>> 9fbbb0cafa30ccfebc8ebc7c8f10987c95b4dae5
+    "sessionId": "session_522a3868664a34b34e22c9aed6821a6f"
   },
   {
     "id": "u2",
@@ -31,6 +26,6 @@
     "password": "admin123",
     "role": "admin",
     "profilePicture": "/images/admin.png",
-    "sessionId": "session_9ca816fbad02d7ab7f97caa1647e7e84"
+    "sessionId": "session_909f8ddf9f0623f437cb6e2b4e039199"
   }
 ]
