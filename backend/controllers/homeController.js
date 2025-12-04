@@ -55,7 +55,9 @@ export async function renderHomePage(request, response) {
                     </div>
 
                     <div class="comment">
-                        <img src="/icon/comment.png">
+                        <a href="/compose-comment?postId=${post.id}">
+                            <img src="/icon/comment.png" class="comment-button">
+                        </a>
                         <p>${post.comments.length}</p>
                     </div>
 
@@ -73,22 +75,14 @@ export async function renderHomePage(request, response) {
 
 
     html = html.replace("{{POSTS}}", postsHTML);
+    html = html.replace("{{PROFILE_PIC_URL}}", user.profilePicture);
 
     if (user.role === "admin") {
-        html = html.replace("{{ADMIN_BUTTON}}", `
-        <a href="/user-list" class="menu-item user-list">
-        <img class="menu-logo" src="/icon/user-list.png" alt="User-List">
-        <p>User List</p>
-    </a>
-        `);
+        html = html.replace("{{ADMIN_BUTTON}}", "<button>Manage Users</button>");
     } else {
         html = html.replace("{{ADMIN_BUTTON}}", "");
     }
 
-    response.writeHead(200, {
-        "Content-Type": "text/html",
-        "Cache-Control": "no-store"
-
-    });
+    response.writeHead(200, { "Content-Type": "text/html" });
     response.end(html);
 }
