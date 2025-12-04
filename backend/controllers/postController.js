@@ -5,6 +5,7 @@ import { dirname, join } from "path";
 import { readJSON, writeJSON } from "../utils/json.js";
 import formidable from "formidable";
 import fs from "fs";
+import { generateSessionId } from "../utils/helpers.js";
 
 
 
@@ -155,8 +156,7 @@ export async function renderCommentPage(request, response, postId) {
     response.end(html);
 }
 
-//TODO
-//implement function
+
 export async function createNewPost(request, response) {
     const form = formidable({
         multiples: false,
@@ -184,7 +184,6 @@ export async function createNewPost(request, response) {
             text = "";
         }
 
-        // Image file handling
         let imgFile = null;
 
         if (files.image) {
@@ -213,9 +212,9 @@ export async function createNewPost(request, response) {
         }
 
 
-        //error if delete a previous post then post again maybe, will result in same id
+        const postId = generateSessionId();
         const newPost = {
-            id: "p" + (posts.length + 1),   // string
+            id: "p" + postId,   // string
             userId: user.id,           // string
             content: text,             // string
             imgUrl: imgUrl,             // string | null
@@ -223,7 +222,7 @@ export async function createNewPost(request, response) {
             comments: []
         };
 
-        // Insert new comment
+        // Insert new post
         posts.push(newPost);
 
         // Save JSON
@@ -237,8 +236,7 @@ export async function createNewPost(request, response) {
     })
 }
 
-//TODO
-//implement function
+
 export async function createNewComment(request, response, postId) {
     const form = formidable({
         multiples: false,
@@ -327,8 +325,6 @@ export async function createNewComment(request, response, postId) {
     });
 }
 
-//TODO
-//implement liking a post logics
 export async function likePost(request, response) {
     const user = await getUserFromCookies(request);
     if (!user) {
@@ -365,8 +361,6 @@ export async function likePost(request, response) {
     return response.end(JSON.stringify({ likes: post.likes.length, liked }));
 }
 
-//TODO
-//implement delete post logics
 export async function deletePost(request, response) {
     const url = new URL(request.url, `http://${request.headers.host}`);
     const postId = url.searchParams.get("id");
@@ -390,7 +384,7 @@ export async function deletePost(request, response) {
         return response.end("Post not found");
     }
 
-    // Security: Only owner or admin
+    //Only poster or admin
     if (user.role !== "admin" && user.id !== post.userId) {
         response.writeHead(403);
         return response.end("Not allowed");

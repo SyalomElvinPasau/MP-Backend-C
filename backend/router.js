@@ -22,8 +22,7 @@ const MIME_TYPES = {
 
 export async function handle(request, response) {
     const method = request.method;
-    //debugging
-    // console.log("Request URL:", request.url, " and Method: ", method);
+
 
     const fullUrl = new URL(request.url, `http://${request.headers.host}`);
     const path = fullUrl.pathname;
