@@ -8,7 +8,7 @@ import { parseForm } from "../utils/helpers.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const USER_LIST_HTML = join(__dirname, "../../frontend/user_list.html");
-const USERS_JSON = join(__dirname,"../../data/users.json" )
+const USERS_JSON = join(__dirname, "../../data/users.json")
 
 //TODO
 //Implement data rendering logic
@@ -20,7 +20,7 @@ export async function renderUserListPage(request, response) {
         response.writeHead(302, { Location: "/" });
         return response.end();
     }
-    
+
     //baca daftar users
     const users = await readJSON(USERS_JSON);
 
@@ -48,9 +48,27 @@ export async function renderUserListPage(request, response) {
 
     }
 
-    //changes the user pfp to match the current user
-    html = html.replace("{{PROFILE_PIC_URL}}", user.profilePicture);
     html = html.replace("{{usercard}}", userCards);
+
+    if (user.role === "admin") {
+        html = html.replace("{{ADMIN_BUTTON}}", `
+
+
+
+        <a href="/user-list" class="menu-item user-list">
+
+
+        <img class="menu-logo" src="/icon/user-list.png" alt="User-List">
+
+
+        <p>User List</p>
+
+
+    </a>`)
+
+    } else {
+        html = html.replace("{{ADMIN_BUTTON}}", "");
+    }
 
     response.writeHead(200, {
         "Content-Type": "text/html",
