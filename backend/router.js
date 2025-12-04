@@ -69,7 +69,7 @@ export async function handle(request, response) {
 
     } else if (method === "POST" && path === "/submit-comment") {  //user creates a new comment on a post
         const postId = searchParams.get("postId");
-        
+
         return createNewComment(request, response, postId);
 
     } else if (method === "POST" && path === "/delete-user") {      //admin deletes a user's account

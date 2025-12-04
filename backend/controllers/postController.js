@@ -2,7 +2,7 @@ import { readFile } from "fs/promises";
 import { getUserFromCookies } from "../utils/cookies.js";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
-import { readJSON, writeJSON} from "../utils/json.js";
+import { readJSON, writeJSON } from "../utils/json.js";
 import formidable from "formidable";
 
 
@@ -35,17 +35,22 @@ export async function renderCommentPage(request, response, postId) {
     const posts = await readJSON(POSTS_JSON);
     const users = await readJSON(USERS_JSON);
 
+
     const post = posts.find(p => p.id === postId);
     if (!post) {
         response.writeHead(404, { "Content-Type": "text/plain" });
         return response.end("Post not found");
     }
 
+
+    //post.likes.find(u => u.id === u)
+
     const postUser = users.find(u => u.id === post.userId);
 
     // Render all comments
     const commentsHTML = post.comments.map(comment => {
         const commentUser = users.find(u => u.id === comment.userId);
+
 
         return `
             <div class="comment-item">
@@ -59,6 +64,7 @@ export async function renderCommentPage(request, response, postId) {
         `;
     }).join("");
 
+    const liked = post.likes.some(u => u.id === user.id);
     // sections
     const postsHTML = `
             <article class="post">
@@ -74,7 +80,7 @@ export async function renderCommentPage(request, response, postId) {
 
                 <div class="activity">
                     <div class="like">
-                        <img src="/icon/heart.png">
+                        <img src="${liked ? '/icon/heart-filled.png' : '/icon/heart.png'}" class="like-btn" data-post-id="${post.id}">
                         <p>${post.likes.length}</p>
                     </div>
                 </div>
@@ -148,11 +154,11 @@ export async function createNewComment(request, response, postId) {
         uploadDir: uploadDir,
         keepExtensions: true,
         allowEmptyFiles: true,   // optional upload
-        minFileSize: 0           
+        minFileSize: 0
     });
 
     form.parse(request, async (err, fields, files) => {
-        
+
         if (err) {
             response.writeHead(400);
             return response.end("Error parsing form");
@@ -184,7 +190,7 @@ export async function createNewComment(request, response, postId) {
         //         imgFile = files.image;
         //     }
         // }
-        
+
         if (files.image) {
             let f = Array.isArray(files.image) ? files.image[0] : files.image;
 
@@ -193,7 +199,7 @@ export async function createNewComment(request, response, postId) {
                 imgFile = f;
             } else {
                 // delete empty auto-created file
-                try { fs.unlinkSync(f.filepath); } catch {}
+                try { fs.unlinkSync(f.filepath); } catch { }
             }
         }
 
@@ -241,7 +247,39 @@ export async function createNewComment(request, response, postId) {
 //TODO
 //implement liking a post logics
 export async function likePost(request, response) {
+    const user = await getUserFromCookies(request);
+    if (!user) {
+        response.writeHead(302, { Location: "/login" });
+        return response.end();
+    }
 
+    const url = new URL(request.url, `http://${request.headers.host}`);
+    const postId = url.searchParams.get('postId');
+
+    const posts = await readJSON(POSTS_JSON);
+    const post = posts.find(p => p.id === postId);
+
+    if (!post) {
+        response.writeHead(404, { "Content-Type": "text/plain" });
+        return response.end("Post not found");
+    }
+
+    const likedIndex = post.likes.findIndex(u => u.id === user.id);
+
+    let liked;
+    if (likedIndex !== -1) {
+
+        post.likes.splice(likedIndex, 1);
+        liked = false;
+    } else {
+
+        post.likes.push({ id: user.id, name: user.name });
+        liked = true;
+    }
+
+    await writeJSON(POSTS_JSON, posts);
+    response.writeHead(200, { "Content-Type": "application/json" });
+    return response.end(JSON.stringify({ likes: post.likes.length, liked }));
 }
 
 //TODO
