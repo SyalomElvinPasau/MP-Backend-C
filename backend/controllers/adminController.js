@@ -10,8 +10,7 @@ const __dirname = dirname(__filename);
 const USER_LIST_HTML = join(__dirname, "../../frontend/user_list.html");
 const USERS_JSON = join(__dirname, "../../data/users.json")
 
-//TODO
-//Implement data rendering logic
+
 export async function renderUserListPage(request, response) {
     const user = await getUserFromCookies(request);
 
@@ -36,7 +35,7 @@ export async function renderUserListPage(request, response) {
                 </button>
             </form>
         </div>
-    `).join(""); //tombol admin dinonaktifkan untuk user lain dengan role admin
+    `).join(""); 
 
     let html;
 
@@ -72,23 +71,17 @@ export async function renderUserListPage(request, response) {
 
     response.writeHead(200, {
         "Content-Type": "text/html",
-        // "Transfer-Encoding": "chunked"
+       
     })
     response.end(html);
 }
 
 
 
-//TODO
-// Parse the POST body for userId
-// Load users.json
-// Remove the user
-// Save the file
-// Redirect back to /user-list
 export async function deleteAccount(request, response) {
     const user = await getUserFromCookies(request);
 
-    // checking permission (Admin-only)
+    // check permission
     if (!user || user.role !== "admin") {
         response.writeHead(302, { Location: "/" });
         return response.end();
@@ -104,7 +97,7 @@ export async function deleteAccount(request, response) {
         const form = parseForm(body);
         const userIdToDelete = form.userId;
 
-        // Pastikan admin tidak menghapus akun mereka sendiri
+        // Make sure admin can't delete their own account
         if (userIdToDelete === user.id) {
             console.log("Admin attempted to delete own account.");
             response.writeHead(302, { Location: "/user-list" });
@@ -113,13 +106,11 @@ export async function deleteAccount(request, response) {
 
         const users = await readJSON(USERS_JSON);
 
-        // Filter pengguna yang akan dihapus (buat array baru tanpa pengguna tersebut)
+        
         const updatedUsers = users.filter(u => u.id !== userIdToDelete);
 
-        // Simpan file yang diperbarui
         await writeJSON(USERS_JSON, updatedUsers);
 
-        // Redirect kembali ke /user-list
         response.writeHead(302, { Location: "/user-list" });
         response.end();
     });

@@ -55,7 +55,7 @@ export async function renderCommentPage(request, response, postId) {
         return `
             <div class="comment-item">
                 <div class="comment-user">
-                    <img class="comment-profile" src="${"/icon/profile.png"}">
+                    <img class="comment-profile" src="/icon/profile.png">
                     <p class="comment-username">${commentUser?.username || "Unknown User"}</p>
                 </div>
                 <p class="comment-content">${comment.content}</p>
@@ -69,7 +69,7 @@ export async function renderCommentPage(request, response, postId) {
     const postsHTML = `
             <article class="post">
                 <div class="username">
-                    <img class="profile-pic" src="${"/icon/profile.png"}">
+                    <img class="profile-pic" src="icon/profile.png">
                     <p>${postUser?.username || "Unknown User"}</p>
                 </div>
 
@@ -196,13 +196,6 @@ export async function createNewComment(request, response, postId) {
         // Image file handling
         let imgFile = null;
 
-        // if (files.image) {
-        //     if (Array.isArray(files.image) && files.image.length > 0) {
-        //         imgFile = files.image[0];
-        //     } else if (files.image.filepath) {
-        //         imgFile = files.image;
-        //     }
-        // }
 
         if (files.image) {
             let f = Array.isArray(files.image) ? files.image[0] : files.image;
@@ -211,7 +204,6 @@ export async function createNewComment(request, response, postId) {
             if (f.size > 0) {
                 imgFile = f;
             } else {
-                // delete empty auto-created file
                 try { fs.unlinkSync(f.filepath); } catch { }
             }
         }
