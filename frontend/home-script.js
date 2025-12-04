@@ -19,14 +19,26 @@ items.forEach(el => {
     });
 })
 
-
 document.addEventListener("click", async (e) => {
-    if (e.target.classList.contains("delete-btn")) {
-        const postId = e.target.dataset.id;
+    // Look for delete-btn, even if clicked on child img
+    const btn = e.target.closest(".delete-btn");
+    if (!btn) return;
 
-        await fetch(`/delete-post?id=${postId}`, { method: "DELETE" });
+    const postId = btn.dataset.id;
+    if (!postId) return console.log("No postId found on button");
 
-        location.reload();
+    try {
+        const res = await fetch(`/delete-post?id=${postId}`, { method: "DELETE" });
+        if (res.ok) {
+            // Remove post element from DOM
+            const postEl = btn.closest(".post");
+            if (postEl) postEl.remove();
+        } else {
+            const text = await res.text();
+            alert(`Failed to delete post: ${text}`);
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Error deleting post");
     }
 });
-
