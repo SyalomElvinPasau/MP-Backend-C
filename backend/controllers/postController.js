@@ -35,17 +35,22 @@ export async function renderCommentPage(request, response, postId) {
     const posts = await readJSON(POSTS_JSON);
     const users = await readJSON(USERS_JSON);
 
+
     const post = posts.find(p => p.id === postId);
     if (!post) {
         response.writeHead(404, { "Content-Type": "text/plain" });
         return response.end("Post not found");
     }
 
+
+    //post.likes.find(u => u.id === u)
+
     const postUser = users.find(u => u.id === post.userId);
 
     // Render all comments
     const commentsHTML = post.comments.map(comment => {
         const commentUser = users.find(u => u.id === comment.userId);
+
 
         return `
             <div class="comment-item">
@@ -59,6 +64,7 @@ export async function renderCommentPage(request, response, postId) {
         `;
     }).join("");
 
+    const liked = post.likes.some(u => u.id === user.id);
     // sections
     const postsHTML = `
             <article class="post">
@@ -74,7 +80,7 @@ export async function renderCommentPage(request, response, postId) {
 
                 <div class="activity">
                     <div class="like">
-                        <img src="/icon/heart.png">
+                        <img src="${liked ? '/icon/heart-filled.png' : '/icon/heart.png'}" class="like-btn" data-post-id="${post.id}">
                         <p>${post.likes.length}</p>
                     </div>
                 </div>
@@ -254,7 +260,39 @@ export async function createNewComment(request, response, postId) {
 //TODO
 //implement liking a post logics
 export async function likePost(request, response) {
-    
+    const user = await getUserFromCookies(request);
+    if (!user) {
+        response.writeHead(302, { Location: "/login" });
+        return response.end();
+    }
+
+    const url = new URL(request.url, `http://${request.headers.host}`);
+    const postId = url.searchParams.get('postId');
+
+    const posts = await readJSON(POSTS_JSON);
+    const post = posts.find(p => p.id === postId);
+
+    if (!post) {
+        response.writeHead(404, { "Content-Type": "text/plain" });
+        return response.end("Post not found");
+    }
+
+    const likedIndex = post.likes.findIndex(u => u.id === user.id);
+
+    let liked;
+    if (likedIndex !== -1) {
+
+        post.likes.splice(likedIndex, 1);
+        liked = false;
+    } else {
+
+        post.likes.push({ id: user.id, name: user.name });
+        liked = true;
+    }
+
+    await writeJSON(POSTS_JSON, posts);
+    response.writeHead(200, { "Content-Type": "application/json" });
+    return response.end(JSON.stringify({ likes: post.likes.length, liked }));
 }
 
 //TODO

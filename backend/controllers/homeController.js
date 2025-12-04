@@ -34,7 +34,7 @@ export async function renderHomePage(request, response) {
         const postUser = users.find(u => u.id === post.userId);
 
         const canDelete = (user.role === "admin" || user.id === post.userId);
-
+        const liked = post.likes.some(u => u.id === user.id);
 
         return `
             <article class="post">
@@ -50,7 +50,8 @@ export async function renderHomePage(request, response) {
 
                 <div class="activity">
                     <div class="like">
-                        <img src="/icon/heart.png">
+                    <img src="${liked ? '/icon/heart-filled.png' : '/icon/heart.png'}" class="like-btn" data-post-id="${post.id}">
+                    
                         <p>${post.likes.length}</p>
                     </div>
 
