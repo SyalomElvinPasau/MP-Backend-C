@@ -78,11 +78,28 @@ export async function renderHomePage(request, response) {
     html = html.replace("{{PROFILE_PIC_URL}}", user.profilePicture);
 
     if (user.role === "admin") {
-        html = html.replace("{{ADMIN_BUTTON}}", "<button>Manage Users</button>");
+        html = html.replace("{{ADMIN_BUTTON}}", `
+
+
+
+        <a href="/user-list" class="menu-item user-list">
+
+
+        <img class="menu-logo" src="/icon/user-list.png" alt="User-List">
+
+
+        <p>User List</p>
+
+
+    </a>`)
+
     } else {
         html = html.replace("{{ADMIN_BUTTON}}", "");
     }
 
-    response.writeHead(200, { "Content-Type": "text/html" });
+    response.writeHead(200, {
+        "Content-Type": "text/html",
+        "Cache-Control": "no-store"
+    });
     response.end(html);
 }
