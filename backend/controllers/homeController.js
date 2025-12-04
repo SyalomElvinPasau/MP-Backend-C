@@ -55,6 +55,10 @@ export async function renderHomePage(request, response) {
                         <img src="/icon/comment.png">
                         <p>${post.comments.length}</p>
                     </div>
+
+                    <div class="delete">
+                        <img src="/icon/delete.png" alt="">
+                    </div>
                 </div>
             </article>
         `;
