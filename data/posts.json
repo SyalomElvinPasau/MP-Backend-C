@@ -1,5 +1,77 @@
 [
   {
+    "id": "p13",
+    "userId": "admin1",
+    "content": "",
+    "imgUrl": "/uploads/null",
+    "likes": [],
+    "comments": []
+  },
+  {
+    "id": "p12",
+    "userId": "admin1",
+    "content": "",
+    "photo": "/uploads/undefined",
+    "likes": [],
+    "comments": []
+  },
+  {
+    "id": "p11",
+    "userId": "admin1",
+    "content": "",
+    "photo": "/uploads/undefined",
+    "likes": [],
+    "comments": []
+  },
+  {
+    "id": "p10",
+    "userId": "admin1",
+    "content": "",
+    "photo": "/uploads/undefined",
+    "likes": [],
+    "comments": []
+  },
+  {
+    "id": "p9",
+    "userId": "admin1",
+    "content": "",
+    "photo": "/uploads/undefined",
+    "likes": [],
+    "comments": []
+  },
+  {
+    "id": "p8",
+    "userId": "admin1",
+    "content": "Halo",
+    "photo": "/uploads/null",
+    "likes": [],
+    "comments": []
+  },
+  {
+    "id": "p7",
+    "userId": "admin1",
+    "content": "",
+    "photo": "/uploads/undefined",
+    "likes": [],
+    "comments": []
+  },
+  {
+    "id": "p6",
+    "userId": "admin1",
+    "content": "",
+    "photo": "/uploads/undefined",
+    "likes": [],
+    "comments": []
+  },
+  {
+    "id": "p5",
+    "userId": "admin1",
+    "text": "",
+    "photo": null,
+    "likes": 0,
+    "comments": []
+  },
+  {
     "id": "p1",
     "userId": "u1",
     "content": "Hello world! This is my first post",

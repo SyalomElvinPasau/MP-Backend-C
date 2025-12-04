@@ -1,6 +1,8 @@
 import { readFile } from "fs/promises";
 import { getUserFromCookies } from "../utils/cookies.js";
-
+import { parseForm } from "../utils/helpers.js";
+import { readJSON, writeJSON } from "../utils/json.js";
+import { generateId } from "../utils/helpers.js";
 
 //TODO
 //Implement data rendering logic
@@ -30,6 +32,52 @@ export async function renderCommentPage(request, response) {
 //TODO
 //implement function
 export async function createNewPost(request, response) {
+    const user = await getUserFromCookies(request);
+    if (!user) {
+        response.writeHead(302, { Location: "/login" });
+        return response.end();
+    }
+
+    let body = "";
+    request.on("data", (chunk) => {
+        body += chunk;
+    });
+
+    request.on("end", async () => {
+        try {
+            const postData = JSON.parse(body);
+            console.log("New Post Data:", postData);
+            const jsonData = await readJSON("../data/posts.json");
+
+            console.log("Current Posts Data:", jsonData);
+
+            const newId = generateId(jsonData);
+
+            if(postData.content === ""){
+                throw new Error("Post content is required");
+            }
+
+            const newData = {
+                id: newId,
+                userId: user.id,
+                content: postData.content || "",
+                imgUrl: "/uploads/"+postData.imgUrl || null,
+                likes: [],
+                comments: []    
+            }
+
+            jsonData.unshift(newData);
+            await writeJSON("../data/posts.json", jsonData);
+
+            response.writeHead(201, { "Content-Type": "application/json" });
+            response.end(JSON.stringify({ message: "Post created successfully" }));
+        } catch (error) {
+            console.error("Error creating post:", error);
+            response.writeHead(500, { "Content-Type": "application/json" });
+            response.end(JSON.stringify({ message: "Error creating post" }));
+        }
+        
+    });
 
 }
 

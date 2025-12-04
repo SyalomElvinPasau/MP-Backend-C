@@ -4,7 +4,7 @@
     "username": "alice",
     "password": "12345",
     "role": "user",
-    "sessionId": ""
+    "sessionId": "session_e015df15f5c1b6a63d1be82c874f5147"
   },
   {
     "id": "u2",
@@ -25,6 +25,6 @@
     "username": "admin",
     "password": "admin123",
     "role": "admin",
-    "sessionId": "session_eb1135121de7a04b0da28073affa6def"
+    "sessionId": ""
   }
 ]
