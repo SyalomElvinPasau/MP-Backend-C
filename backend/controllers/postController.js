@@ -1,6 +1,12 @@
 import { readFile } from "fs/promises";
 import { getUserFromCookies } from "../utils/cookies.js";
 import { readJSON, writeJSON } from "../utils/json.js";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const POSTS_JSON = join(__dirname, "../../data/posts.json");
+
 
 //TODO
 //Implement data rendering logic
@@ -47,8 +53,6 @@ export async function likePost(request, response) {
 
 //TODO
 //implement delete post logics
-
-
 export async function deletePost(request, response) {
     const url = new URL(request.url, `http://${request.headers.host}`);
     const postId = url.searchParams.get("id");
@@ -78,6 +82,7 @@ export async function deletePost(request, response) {
         return response.end("Not allowed");
     }
 
+    //posts.splice(postId, 1);
     const updated = posts.filter(p => p.id !== postId);
     await writeJSON(POSTS_JSON, updated);
 

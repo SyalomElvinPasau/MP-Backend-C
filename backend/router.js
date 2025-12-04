@@ -68,8 +68,8 @@ export async function handle(request, response) {
     } else if (method === "POST" && path === "/delete-user") {      //admin deletes a user's account
         return deleteAccount(request, response);
 
-    } else if (method === "POST" && path === "/delete-post") {       //admin deletes another user's post || user delete their own post
-        return deletePost(request, response);
+    } else if (method === "DELETE" && path === "/delete-post") {       //admin deletes another user's post || user delete their own post
+        return await deletePost(request, response);
 
     } else if (method === "POST" && path === "/like-post") {         //User likes a post
         return likePost(request, response);

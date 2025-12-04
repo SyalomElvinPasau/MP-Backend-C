@@ -1,9 +1,6 @@
 const profileIcon = document.getElementById("profile");
 const profileMenu = document.getElementById("profileMenu");
 const closeProfileMenu = document.getElementById("closeProfileMenu");
-const divPost = document.getElementById("divPost");
-const postButton = document.getElementById("postButton");
-const postContent = document.getElementById("newPostContent");
 
 profileIcon.addEventListener("click", () => {
     profileMenu.classList.remove("closed");
@@ -32,3 +29,4 @@ document.addEventListener("click", async (e) => {
         location.reload();
     }
 });
+
