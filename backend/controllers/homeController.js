@@ -30,6 +30,39 @@ export async function renderHomePage(request, response) {
 
     const users = await readJSON(USERS_JSON);
 
+    const postFormHTML = `
+            <form id="commentForm"
+                class="comment-form"
+                method="POST"
+                enctype="multipart/form-data"
+                action="/create-post">
+                
+
+                <div class="form-header">
+                    <p class="caption">Compose Comment:</p>
+                </div>
+
+                <!-- text -->
+                <textarea id="text" name="text" placeholder="Write a comment..." maxlength="1000"></textarea>
+
+                <!-- img preview -->
+                <img id="preview" class="image-preview" style="display:none;">
+
+                <!-- img upload -->
+                <input id="image" name="image" type="file" accept="image/*">
+
+                <div class="actions">
+                    <button id="submitBtn" type="submit" class="btn pill">
+                        Publish Comment
+                    </button>
+
+                    <button id="clearBtn" type="button" class="btn pill ghost">
+                        Clear Form
+                    </button>
+                </div>
+            </form>
+        `;
+
     const postsHTML = posts.map(post => {
         const postUser = users.find(u => u.id === post.userId);
 
@@ -77,6 +110,7 @@ export async function renderHomePage(request, response) {
 
     html = html.replace("{{POSTS}}", postsHTML);
     html = html.replace("{{PROFILE_PIC_URL}}", user.profilePicture);
+    html = html.replace("{{FORM}}", postFormHTML);
 
     if (user.role === "admin") {
         html = html.replace("{{ADMIN_BUTTON}}", `
