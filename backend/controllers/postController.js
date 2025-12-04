@@ -4,6 +4,8 @@ import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import { readJSON, writeJSON } from "../utils/json.js";
 import formidable from "formidable";
+import fs from "fs";
+
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -156,7 +158,83 @@ export async function renderCommentPage(request, response, postId) {
 //TODO
 //implement function
 export async function createNewPost(request, response) {
+    const form = formidable({
+        multiples: false,
+        uploadDir: uploadDir,
+        keepExtensions: true,
+        allowEmptyFiles: true,   // optional upload
+        minFileSize: 0
+    });
 
+    form.parse(request, async (err, fields, files) => {
+
+        if (err) {
+            response.writeHead(400);
+            return response.end("Error parsing form");
+        }
+
+        let rawText = fields.text;
+        let text = "";
+
+        if (Array.isArray(rawText)) {
+            text = rawText[0]?.trim() || "";
+        } else if (typeof rawText === "string") {
+            text = rawText.trim();
+        } else {
+            text = "";
+        }
+
+        // Image file handling
+        let imgFile = null;
+
+        if (files.image) {
+            let f = Array.isArray(files.image) ? files.image[0] : files.image;
+
+            // If size > 0, it's a real file
+            if (f.size > 0) {
+                imgFile = f;
+            } else {
+                // delete empty auto-created file
+                try { fs.unlinkSync(f.filepath); } catch { }
+            }
+        }
+
+        const imgUrl = imgFile ? `/uploads/${imgFile.newFilename}` : null;
+
+
+        // Read DB
+        const posts = await readJSON(POSTS_JSON);
+
+        // Logged in user
+        const user = await getUserFromCookies(request);
+        if (!user) {
+            response.writeHead(401);
+            return response.end("Unauthorized");
+        }
+
+
+        //error if delete a previous post then post again maybe, will result in same id
+        const newPost = {
+            id: "p" + (posts.length + 1),   // string
+            userId: user.id,           // string
+            content: text,             // string
+            imgUrl: imgUrl,             // string | null
+            likes: [],
+            comments: []
+        };
+
+        // Insert new comment
+        posts.push(newPost);
+
+        // Save JSON
+        await writeJSON(POSTS_JSON, posts);
+
+        // Redirect back to comment page
+        response.writeHead(302, {
+            Location: `/`
+        });
+        return response.end();
+    })
 }
 
 //TODO
