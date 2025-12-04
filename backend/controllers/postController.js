@@ -43,52 +43,81 @@ export async function createNewPost(request, response) {
         return response.end();
     }
 
-    let body = "";
-    request.on("data", (chunk) => {
-        body += chunk;
+    const form = formidable({
+        multiples: false,
+        uploadDir: uploadDir,
+        keepExtensions: true,
+        allowEmptyFiles: true,
+        minFileSize: 0,
+        filename: (name, ext, part, form) => {
+            return `${Date.now()}-${part.originalFilename}`; 
+        }
     });
 
-    request.on("end", async () => {
+    form.parse(request, async (err, fields, files) => {
+        if (err) {
+            console.error("Form parsing error:", err);
+            response.writeHead(400, { "Content-Type": "application/json" });
+            return response.end(JSON.stringify({ message: "Error parsing form data" }));
+        }
+
         try {
-            const postData = JSON.parse(body);
-            console.log("New Post Data:", postData);
+            let rawContent = fields.content; 
+            let content = "";
+
+            if (Array.isArray(rawContent)) {
+                content = rawContent[0]?.trim() || "";
+            } else if (typeof rawContent === "string") {
+                content = rawContent.trim();
+            }
+
+            let imgFile = null;
+            if (files.image) {
+                let f = Array.isArray(files.image) ? files.image[0] : files.image;
+                
+                if (f.size > 0) {
+                    imgFile = f;
+                } else {
+                    try { fs.unlinkSync(f.filepath); } catch (e) { }
+                }
+            }
+
+            const imgUrl = imgFile ? `/uploads/${imgFile.newFilename}` : "";
+
+            if (!content && !imgUrl) {
+                response.writeHead(400, { "Content-Type": "application/json" });
+                return response.end(JSON.stringify({ message: "Post content or image is required" }));
+            }
+
+            // --- D. UPDATE DATABASE ---
             const jsonData = await readJSON("../data/posts.json");
-
-            console.log("Current Posts Data:", jsonData);
-
             const newId = generateId(jsonData);
-
-            if(postData.content === "" && postData.imgUrl === null){
-                throw new Error("Post content is required");
-            }
-
-            if(postData.imgUrl === null){
-                postData.imgUrl = "";
-            }
-            else{
-                postData.imgUrl = uploadImg(postData.imgUrl);
-            }
 
             const newData = {
                 id: newId,
                 userId: user.id,
-                content: postData.content,
-                imgUrl: postData.imgUrl,
+                content: content,
+                imgUrl: imgUrl, 
                 likes: [],
                 comments: []    
             }
+
+            console.log("Creating new post:", newData);
 
             jsonData.unshift(newData);
             await writeJSON("../data/posts.json", jsonData);
 
             response.writeHead(201, { "Content-Type": "application/json" });
-            response.end(JSON.stringify({ message: "Post created successfully" }));
+            return response.end(JSON.stringify({ 
+                message: "Post created successfully",
+                data: newData
+            }));
+
         } catch (error) {
-            console.error("Error creating post:", error);
+            console.error("Error inside createNewPost:", error);
             response.writeHead(500, { "Content-Type": "application/json" });
-            response.end(JSON.stringify({ message: "Error creating post" }));
+            return response.end(JSON.stringify({ message: "Error creating post" }));
         }
-        
     });
 
 }
@@ -231,8 +260,6 @@ export async function likePost(request, response) {
 
 //TODO
 //implement delete post logics
-
-
 export async function deletePost(request, response) {
     const url = new URL(request.url, `http://${request.headers.host}`);
     const postId = url.searchParams.get("id");
