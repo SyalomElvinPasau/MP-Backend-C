@@ -22,66 +22,13 @@ items.forEach(el => {
     });
 })
 
-postButton.addEventListener("click", () => {
-    const captionText = postContent.value;
 
-    if (!captionText) {
-        alert("Silakan masukkan konten postingan!");
-        return;
+document.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("delete-btn")) {
+        const postId = e.target.dataset.id;
+
+        await fetch(`/delete-post?id=${postId}`, { method: "DELETE" });
+
+        location.reload();
     }
-
-    const newArticle = document.createElement("article");
-    const usernameDiv = document.createElement("div");
-    const profilePic = document.createElement("img");
-    const usernameP = document.createElement("p");
-    const postedContentDiv = document.createElement("div");
-    const newCaption = document.createElement("p");
-    const activityDiv = document.createElement("div");
-    const likeDiv = document.createElement("div");
-    const likeImg = document.createElement("img");
-    const likeCount = document.createElement("p");
-    const commentDiv = document.createElement("div");
-    const commentImg = document.createElement("img");
-    const commentCount = document.createElement("p");
-
-    newArticle.className = "post";
-    usernameDiv.className = "username";
-    profilePic.className = "profile-pic";
-    usernameP.textContent = "User New"; 
-    postedContentDiv.className = "posted-content";
-    newCaption.className = "caption";
-    activityDiv.className = "activity";
-    likeDiv.className = "like";
-    commentDiv.className = "comment";
-
-    profilePic.src = "/icon/profile.png";
-    profilePic.alt = "User New";
-    newCaption.textContent = captionText;
-
-    likeImg.src = "/icon/heart.png";
-    likeCount.textContent = "0";
-    commentImg.src = "/icon/comment.png";
-    commentCount.textContent = "0";
-
-    usernameDiv.appendChild(profilePic);
-    usernameDiv.appendChild(usernameP);
-
-    postedContentDiv.appendChild(newCaption);
-
-    likeDiv.appendChild(likeImg);
-    likeDiv.appendChild(likeCount);
-    commentDiv.appendChild(commentImg);
-    commentDiv.appendChild(commentCount);
-    activityDiv.appendChild(likeDiv);
-    activityDiv.appendChild(commentDiv);
-
-    newArticle.appendChild(usernameDiv);
-    newArticle.appendChild(postedContentDiv);
-    newArticle.appendChild(activityDiv);
-
-    divPost.prepend(newArticle);
-
-    postContent.value = "";
 });
-
-
