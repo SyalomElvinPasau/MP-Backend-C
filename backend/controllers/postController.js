@@ -2,7 +2,7 @@ import { readFile } from "fs/promises";
 import { getUserFromCookies } from "../utils/cookies.js";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
-import { readJSON, writeJSON} from "../utils/json.js";
+import { readJSON, writeJSON } from "../utils/json.js";
 import formidable from "formidable";
 
 
@@ -50,7 +50,7 @@ export async function renderCommentPage(request, response, postId) {
         return `
             <div class="comment-item">
                 <div class="comment-user">
-                    <img class="comment-profile" src="${commentUser?.profilePicture || "/icon/profile.png"}">
+                    <img class="comment-profile" src="${"/icon/profile.png"}">
                     <p class="comment-username">${commentUser?.username || "Unknown User"}</p>
                 </div>
                 <p class="comment-content">${comment.content}</p>
@@ -63,7 +63,7 @@ export async function renderCommentPage(request, response, postId) {
     const postsHTML = `
             <article class="post">
                 <div class="username">
-                    <img class="profile-pic" src="${postUser?.profilePicture || "/icon/profile.png"}">
+                    <img class="profile-pic" src="${"/icon/profile.png"}">
                     <p>${postUser?.username || "Unknown User"}</p>
                 </div>
 
@@ -122,10 +122,23 @@ export async function renderCommentPage(request, response, postId) {
     html = html.replace("{{POST}}", postsHTML);
     html = html.replace("{{COMMENTS}}", allCommentsHTML);
     html = html.replace("{{FORM}}", commentFormHTML);
-    html = html.replace("{{PROFILE_PIC_URL}}", user.profilePicture);
 
     if (user.role === "admin") {
-        html = html.replace("{{ADMIN_BUTTON}}", "<button>Manage Users</button>");
+        html = html.replace("{{ADMIN_BUTTON}}", `
+
+
+
+        <a href="/user-list" class="menu-item user-list">
+
+
+        <img class="menu-logo" src="/icon/user-list.png" alt="User-List">
+
+
+        <p>User List</p>
+
+
+    </a>`)
+
     } else {
         html = html.replace("{{ADMIN_BUTTON}}", "");
     }
@@ -148,11 +161,11 @@ export async function createNewComment(request, response, postId) {
         uploadDir: uploadDir,
         keepExtensions: true,
         allowEmptyFiles: true,   // optional upload
-        minFileSize: 0           
+        minFileSize: 0
     });
 
     form.parse(request, async (err, fields, files) => {
-        
+
         if (err) {
             response.writeHead(400);
             return response.end("Error parsing form");
@@ -184,7 +197,7 @@ export async function createNewComment(request, response, postId) {
         //         imgFile = files.image;
         //     }
         // }
-        
+
         if (files.image) {
             let f = Array.isArray(files.image) ? files.image[0] : files.image;
 
@@ -193,7 +206,7 @@ export async function createNewComment(request, response, postId) {
                 imgFile = f;
             } else {
                 // delete empty auto-created file
-                try { fs.unlinkSync(f.filepath); } catch {}
+                try { fs.unlinkSync(f.filepath); } catch { }
             }
         }
 
@@ -241,7 +254,7 @@ export async function createNewComment(request, response, postId) {
 //TODO
 //implement liking a post logics
 export async function likePost(request, response) {
-
+    
 }
 
 //TODO
