@@ -8,55 +8,33 @@
 </head>
 
 <body>
-    <!-- HEADER -->
     <header>
         <p id="reddix">reddiX</p>
-
         <div class="logo" id="logo">
             <img id="profile" class="openProfile" src="icon/user.png">
         </div>
     </header>
-
     <div class="app">
-
-        <!-- SIDEBAR -->
         <aside id="sidebar">
-            <a href="home.html" class="menu-item">
+            <a href="/" class="menu-item">
                 <img class="menu-logo" src="icon/interface.png">
                 <p>Home</p>
             </a>
+            {{ADMIN_BUTTON}}
 
-            <a href="#" class="menu-item home">
-                <img class="menu-logo" src="icon/user-list.png">
-                <p>User List</p>
+            <a href="/logout" class="menu-item logout">
+                <img class="menu-logo" src="/icon/logout.png" alt="Logout">
+                <p>Logout</p>
             </a>
-        </aside>
 
-        <!-- MAIN CONTENT -->
+        </aside>
         <main>
             <h2>Users</h2>
-
             <div class="user_list">
-                <!-- user card -->
-                <div class="user-card">
-                    <img src="icon/profile.png" class="profile-pic">
-                    <p class="name">username1</p>
-                    <button class="view-btn">🗑️</button>
-                </div>
 
-                <div class="user-card">
-                    <img src="icon/profile.png" class="profile-pic">
-                    <p class="name">username2</p>
-                    <button class="view-btn">🗑️</button>
-                </div>
+                {{usercard}}
 
-                <div class="user-card">
-                    <img src="icon/profile.png" class="profile-pic">
-                    <p class="name">username3</p>
-                    <button class="view-btn">🗑️</button>
-                </div>
             </div>
-
         </main>
     </div>
 
