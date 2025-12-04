@@ -109,7 +109,6 @@ export async function renderHomePage(request, response) {
 
 
     html = html.replace("{{POSTS}}", postsHTML);
-    html = html.replace("{{PROFILE_PIC_URL}}", user.profilePicture);
     html = html.replace("{{FORM}}", postFormHTML);
 
     if (user.role === "admin") {
