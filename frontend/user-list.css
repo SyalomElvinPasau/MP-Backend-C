@@ -18,12 +18,12 @@
 .user-card .name {
     flex: 1;
     font-size: 15px;
-}
+} 
 
 .view-btn {
     padding: 0.5rem 1rem;
     border: none;
-    background-color: #c8b9a2;
+    background-color: rgb(194, 57, 57);
     border-radius: 0.5rem;
     cursor: pointer;
     font-weight: bold;

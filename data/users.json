@@ -4,15 +4,18 @@
     "username": "alice",
     "password": "12345",
     "role": "user",
+<<<<<<< HEAD
     "profilePicture": "/images/alice.png",
     "sessionId": "session_45bfc95f1a847d7437f093181a4344b6"
+=======
+    "sessionId": ""
+>>>>>>> 9fbbb0cafa30ccfebc8ebc7c8f10987c95b4dae5
   },
   {
     "id": "u2",
     "username": "bob",
     "password": "password",
     "role": "user",
-    "profilePicture": "/images/bob.png",
     "sessionId": ""
   },
   {
@@ -20,7 +23,6 @@
     "username": "charlie",
     "password": "qwerty",
     "role": "user",
-    "profilePicture": "/images/charlie.png",
     "sessionId": ""
   },
   {
@@ -29,6 +31,6 @@
     "password": "admin123",
     "role": "admin",
     "profilePicture": "/images/admin.png",
-    "sessionId": ""
+    "sessionId": "session_9ca816fbad02d7ab7f97caa1647e7e84"
   }
 ]

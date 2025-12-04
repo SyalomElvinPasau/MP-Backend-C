@@ -248,3 +248,9 @@ input#addPhoto {
     width: 1.25rem;
     height: 1.25rem;
 }
+
+#postsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}

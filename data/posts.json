@@ -2,7 +2,7 @@
   {
     "id": "p1",
     "userId": "u1",
-    "content": "Hello world! This is my first post 😄",
+    "content": "Hello world! This is my first post",
     "imgUrl": "/uploads/unpar.jpg",
     "likes": [
       "u2",
@@ -20,7 +20,7 @@
     "id": "p2",
     "userId": "u2",
     "content": "I love learning JavaScript!",
-    "imgUrl": "/uploads/p2-image.jpg",
+    "imgUrl": "",
     "likes": [],
     "comments": []
   },
@@ -28,7 +28,7 @@
     "id": "p3",
     "userId": "u3",
     "content": "Anyone up for coffee later?",
-    "imgUrl": "/uploads/p3-image.jpg",
+    "imgUrl": "",
     "likes": [
       "u1"
     ],
@@ -44,7 +44,7 @@
     "id": "p4",
     "userId": "admin1",
     "content": "Admin announcement: Be respectful to everyone!",
-    "imgUrl": "/uploads/p4-image.jpg",
+    "imgUrl": "",
     "likes": [],
     "comments": []
   }
