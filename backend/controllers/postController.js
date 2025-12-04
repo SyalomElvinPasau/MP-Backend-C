@@ -1,6 +1,6 @@
 import { readFile } from "fs/promises";
 import { getUserFromCookies } from "../utils/cookies.js";
-
+import { readJSON, writeJSON } from "../utils/json.js";
 
 //TODO
 //Implement data rendering logic
@@ -47,6 +47,40 @@ export async function likePost(request, response) {
 
 //TODO
 //implement delete post logics
-export async function deletePost(request, response) {
 
+
+export async function deletePost(request, response) {
+    const url = new URL(request.url, `http://${request.headers.host}`);
+    const postId = url.searchParams.get("id");
+
+    if (!postId) {
+        response.writeHead(400);
+        return response.end("Missing ID");
+    }
+
+    const user = await getUserFromCookies(request);
+    if (!user) {
+        response.writeHead(403);
+        return response.end("Not authorized");
+    }
+
+    const posts = await readJSON(POSTS_JSON);
+    const post = posts.find(p => p.id === postId);
+
+    if (!post) {
+        response.writeHead(404);
+        return response.end("Post not found");
+    }
+
+    // Security: Only owner or admin
+    if (user.role !== "admin" && user.id !== post.userId) {
+        response.writeHead(403);
+        return response.end("Not allowed");
+    }
+
+    const updated = posts.filter(p => p.id !== postId);
+    await writeJSON(POSTS_JSON, updated);
+
+    response.writeHead(200);
+    response.end("Deleted");
 }
