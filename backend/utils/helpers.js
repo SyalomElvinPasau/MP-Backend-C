@@ -16,6 +16,20 @@ export function parseForm(body) {
     return form;
 }
 
+export function generateId(database) {
+    if (database.length === 0) {
+        return "p1";
+    }
+
+    const allIds = database.map(item => {
+        const number = parseInt(item.id.substring(1)    );
+        return number;
+    })
+
+    const maxId = Math.max(...allIds);
+    return "p" + (maxId + 1);
+}
+
 
 export function generateSessionId() {
     return "session_" + randomBytes(16).toString("hex");

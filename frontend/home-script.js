@@ -63,3 +63,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
+
+const postButton = document.getElementById("postButton");
+
+postButton.addEventListener("click", () => {
+    const textArea = document.getElementById("textArea");
+    const addPhoto = document.getElementById("addPhoto");
+
+    const formData = new FormData();
+
+    formData.append("content", textArea.value);
+
+    if (addPhoto.files.length > 0) {
+        formData.append("image", addPhoto.files[0]); 
+    }
+
+    fetch("/create-post", {
+        method: "POST",
+        body: formData 
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+             console.log("Success:", data);
+             window.location.reload();
+        } else {
+             console.error("Server Error:", data);
+        }
+    })
+    .catch(error => {
+        console.error("Error creating post:", error);
+    });
+});
