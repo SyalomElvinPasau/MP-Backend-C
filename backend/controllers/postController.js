@@ -6,6 +6,7 @@ import { readJSON, writeJSON } from "../utils/json.js";
 import { generateId } from "../utils/helpers.js";
 import formidable from "formidable";
 import fs from "fs";
+import { generateSessionId } from "../utils/helpers.js";
 
 
 
@@ -58,7 +59,7 @@ export async function renderCommentPage(request, response, postId) {
         return `
             <div class="comment-item">
                 <div class="comment-user">
-                    <img class="comment-profile" src="${"/icon/profile.png"}">
+                    <img class="comment-profile" src="/icon/profile.png">
                     <p class="comment-username">${commentUser?.username || "Unknown User"}</p>
                 </div>
                 <p class="comment-content">${comment.content}</p>
@@ -72,7 +73,7 @@ export async function renderCommentPage(request, response, postId) {
     const postsHTML = `
             <article class="post">
                 <div class="username">
-                    <img class="profile-pic" src="${"/icon/profile.png"}">
+                    <img class="profile-pic" src="icon/profile.png">
                     <p>${postUser?.username || "Unknown User"}</p>
                 </div>
 
@@ -156,8 +157,7 @@ export async function renderCommentPage(request, response, postId) {
     response.end(html);
 }
 
-//TODO
-//implement function
+
 export async function createNewPost(request, response) {
     const user = await getUserFromCookies(request);
     if (!user) {
@@ -246,8 +246,7 @@ export async function createNewPost(request, response) {
 }
 
 
-//TODO
-//implement function
+
 export async function createNewComment(request, response, postId) {
     const form = formidable({
         multiples: false,
@@ -283,13 +282,6 @@ export async function createNewComment(request, response, postId) {
         // Image file handling
         let imgFile = null;
 
-        // if (files.image) {
-        //     if (Array.isArray(files.image) && files.image.length > 0) {
-        //         imgFile = files.image[0];
-        //     } else if (files.image.filepath) {
-        //         imgFile = files.image;
-        //     }
-        // }
 
         if (files.image) {
             let f = Array.isArray(files.image) ? files.image[0] : files.image;
@@ -298,7 +290,6 @@ export async function createNewComment(request, response, postId) {
             if (f.size > 0) {
                 imgFile = f;
             } else {
-                // delete empty auto-created file
                 try { fs.unlinkSync(f.filepath); } catch { }
             }
         }
@@ -344,8 +335,6 @@ export async function createNewComment(request, response, postId) {
     });
 }
 
-//TODO
-//implement liking a post logics
 export async function likePost(request, response) {
     const user = await getUserFromCookies(request);
     if (!user) {
@@ -382,8 +371,6 @@ export async function likePost(request, response) {
     return response.end(JSON.stringify({ likes: post.likes.length, liked }));
 }
 
-//TODO
-//implement delete post logics
 export async function deletePost(request, response) {
     const url = new URL(request.url, `http://${request.headers.host}`);
     const postId = url.searchParams.get("id");
@@ -407,7 +394,7 @@ export async function deletePost(request, response) {
         return response.end("Post not found");
     }
 
-    // Security: Only owner or admin
+    //Only poster or admin
     if (user.role !== "admin" && user.id !== post.userId) {
         response.writeHead(403);
         return response.end("Not allowed");

@@ -14,7 +14,7 @@ export async function renderLoginPage(request, response) {
     const user = await getUserFromCookies(request);
 
     if (user !== null) {
-        //redirect to home?
+
         response.writeHead(302, { "Location": "/" });
         return response.end();
 
@@ -32,7 +32,6 @@ export async function renderLoginPage(request, response) {
 
     response.writeHead(200, {
         "Content-Type": "text/html",
-        // "Transfer-Encoding": "chunked"
     })
     response.end(html);
 }
@@ -55,6 +54,7 @@ export function login(request, response) {
             u => u.username === username && u.password === password
         );
 
+        //TODO
         //if invalid login, keep user on login then maybe add error text or something too
         if (!user) {
             response.writeHead(302, { "Location": "/login" });
@@ -67,7 +67,7 @@ export function login(request, response) {
 
         await writeJSON(USERS_JSON, users);
 
-        //console.log("Setting cookie:", sessionId);
+
 
         response.writeHead(302, {
             "Set-Cookie": `sessionId=${sessionId}; HttpOnly; Path=/`,
@@ -80,14 +80,13 @@ export function login(request, response) {
 
 export async function logout(request, response) {
     const users = await readJSON(USERS_JSON);
-    const user = await getUserFromCookies(request);  // may return null
+    const user = await getUserFromCookies(request);
 
     if (user) {
-        // Find user in the JSON file
+
         const index = users.findIndex(u => u.id === user.id);
 
         if (index !== -1) {
-            // Set sessionId to empty string instead of deleting key
             users[index].sessionId = "";
             await writeJSON(USERS_JSON, users);
             console.log("User logged out:", users[index].username);
@@ -98,7 +97,7 @@ export async function logout(request, response) {
         console.log("Logout called but no active session.");
     }
 
-    // Clear the cookie (this works even if user wasn’t found)
+    // Clear the cookie 
     response.writeHead(302, {
         "Set-Cookie": "sessionId=; HttpOnly; Path=/; Max-Age=0",
         "Location": "/login"
