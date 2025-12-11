@@ -1,9 +1,10 @@
 import { readFile } from "fs/promises";
 import { getUserFromCookies } from "../utils/cookies.js";
 import { fileURLToPath } from "url";
-import { dirname, join } from "path";
+import path, { dirname, join } from "path";
 import { readJSON, writeJSON } from "../utils/json.js";
 import { generateId } from "../utils/helpers.js";
+import { optimizeUserImage } from "../utils/imageOptimizer.js";
 import formidable from "formidable";
 import fs from "fs";
 import { generateSessionId } from "../utils/helpers.js";
@@ -164,17 +165,18 @@ export async function createNewPost(request, response) {
         response.writeHead(302, { Location: "/login" });
         return response.end();
     }
-
+    
     const form = formidable({
         multiples: false,
         uploadDir: uploadDir,
-        keepExtensions: true,
+        // Hapus keepExtensions: true karena kita akan menyimpan sebagai WebP
+        // keepExtensions: true, 
         allowEmptyFiles: true,
         minFileSize: 0,
-        filename: (name, ext, part, form) => {
-            const safeName = part.originalFilename.replace(/\s+/g, "_");
-            return `${Date.now()}-${safeName}`;
-        }
+        // filename: (name, ext, part, form) => {
+        //     const safeName = part.originalFilename.replace(/\s+/g, "_");
+        //     return `${Date.now()}-${safeName}`;
+        // }
     });
 
     form.parse(request, async (err, fields, files) => {
@@ -206,7 +208,23 @@ export async function createNewPost(request, response) {
                 }
             }
 
-            const imgUrl = imgFile ? `/uploads/${imgFile.newFilename}` : "";
+            let imgUrl = "";
+            if (imgFile) {
+                const uniqueID = generateId(await readJSON(POSTS_JSON)); // Atau UUID
+                const originalExt = path.extname(imgFile.originalFilename);
+                const finalFileName = `post_${uniqueID}.webp`; // Simpan sebagai WEBP
+                
+                // Panggil fungsi optimasi
+                const optimizedFileName = await optimizeUserImage(imgFile.filepath, finalFileName, uploadDir);
+
+                if (optimizedFileName) {
+                    imgUrl = `/uploads/${optimizedFileName}`;
+                } else {
+                    // Jika optimasi gagal, post dibuat tanpa gambar atau batalkan post (pilih salah satu)
+                    console.warn("Optimasi gambar gagal, post dibuat tanpa gambar.");
+                    imgUrl = ""; 
+                }
+            }
 
             if (!content && !imgUrl) {
                 response.writeHead(400, { "Content-Type": "application/json" });
@@ -251,7 +269,6 @@ export async function createNewComment(request, response, postId) {
     const form = formidable({
         multiples: false,
         uploadDir: uploadDir,
-        keepExtensions: true,
         allowEmptyFiles: true,   // optional upload
         minFileSize: 0
     });
@@ -281,7 +298,14 @@ export async function createNewComment(request, response, postId) {
 
         // Image file handling
         let imgFile = null;
-
+        if (files.image) {
+            let f = Array.isArray(files.image) ? files.image[0] : files.image;
+            if (f.size > 0) {
+                imgFile = f;
+            } else {
+                try { fs.unlinkSync(f.filepath); } catch { }
+            }
+        }
 
         if (files.image) {
             let f = Array.isArray(files.image) ? files.image[0] : files.image;
@@ -294,14 +318,36 @@ export async function createNewComment(request, response, postId) {
             }
         }
 
-        const imgUrl = imgFile ? `/uploads/${imgFile.newFilename}` : null;
+        let imgUrl = null;
+        
+        if (imgFile) {
+            const posts = await readJSON(POSTS_JSON);
+            const post = posts.find(p => p.id === postId);
 
+            // Jika post ditemukan, gunakan jumlah komentar untuk ID unik
+            const commentCount = post ? post.comments.length + 1 : Date.now(); 
+            const finalFileName = `comment_${postId}_${commentCount}.webp`; // Simpan sebagai WEBP
+            
+            // Panggil fungsi optimasi
+            const optimizedFileName = await optimizeUserImage(imgFile.filepath, finalFileName, uploadDir);
+
+            if (optimizedFileName) {
+                imgUrl = `/uploads/${optimizedFileName}`;
+            } else {
+                console.warn("Optimasi gambar komentar gagal, komentar dibuat tanpa gambar.");
+                imgUrl = null;
+            }
+        }
 
         // Read DB
         const posts = await readJSON(POSTS_JSON);
 
         const post = posts.find(p => p.id === postId);
         if (!post) {
+            if (imgUrl) {
+                 try { fs.unlinkSync(path.join(uploadDir, imgUrl.replace('/uploads/', ''))); } catch (e) { }
+            }
+
             response.writeHead(404);
             return response.end("Post not found");
         }
@@ -311,6 +357,12 @@ export async function createNewComment(request, response, postId) {
         if (!user) {
             response.writeHead(401);
             return response.end("Unauthorized");
+        }
+
+        // Cek jika teks dan gambar kosong
+        if (!text && !imgUrl) {
+             response.writeHead(400);
+             return response.end("Comment content or image is required");
         }
 
         // FINAL comment shape (matches JSON)
