@@ -28,7 +28,7 @@ export async function getUserFromCookies(request) {
     const sessionId = cookies.sessionId;
 
     const users = await readJSON(USERS_PATH);
-    const user = users.find(u => u.sessionId == sessionId);
+    const user = users.find(u => u.sessionId === sessionId);
 
     return user || null; //null if not logged in
 }

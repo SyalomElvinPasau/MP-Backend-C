@@ -4,8 +4,37 @@
     "userId": "u2",
     "content": "I love learning JavaScript!",
     "imgUrl": "",
-    "likes": [],
-    "comments": []
+    "likes": [
+      {
+        "id": "u1"
+      }
+    ],
+    "comments": [
+      {
+        "id": "c1",
+        "userId": "u1",
+        "content": "sdfasdfdsgsdvsdfasd s\r\n\r\n\r\nad\r\nasd\r\nasd\r\n\r\n\r\nasda\r\nsda\r\nda\r\nasd\r\nsadasdasd\r\n\r\nasd\r\nasda\r\n\r\nasd\r\nads\r\nadsasdasd\r\nasd\r\nsadasd\r\naasd\r\nasd\r\nad\r\n\r\nsadasdasdas",
+        "imgUrl": null
+      },
+      {
+        "id": "c2",
+        "userId": "u1",
+        "content": "test test",
+        "imgUrl": "/uploads/wof4k8iv0rp2wgrm3amb1j5q2.png"
+      },
+      {
+        "id": "c3",
+        "userId": "u1",
+        "content": "axzcdasasdasd",
+        "imgUrl": null
+      },
+      {
+        "id": "c4",
+        "userId": "u1",
+        "content": "",
+        "imgUrl": "/uploads/pop02xuwo5l81hdck2caiqz0t.png"
+      }
+    ]
   },
   {
     "id": "p3",
@@ -13,13 +42,22 @@
     "content": "Anyone up for coffee later?",
     "imgUrl": "",
     "likes": [
-      "u1"
+      "u1",
+      {
+        "id": "u1"
+      }
     ],
     "comments": [
       {
         "id": "c1",
         "userId": "u1",
         "content": "Sure, where?"
+      },
+      {
+        "id": "c2",
+        "userId": "admin1",
+        "content": "test",
+        "imgUrl": null
       }
     ]
   }

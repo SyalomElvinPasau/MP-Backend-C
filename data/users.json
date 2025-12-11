@@ -4,7 +4,7 @@
     "username": "alice",
     "password": "12345",
     "role": "user",
-    "sessionId": "session_f1ef8fc5eae933dd79ca602bd660eef2"
+    "sessionId": ""
   },
   {
     "id": "u2",
@@ -14,17 +14,10 @@
     "sessionId": ""
   },
   {
-    "id": "u3",
-    "username": "charlie",
-    "password": "qwerty",
-    "role": "user",
-    "sessionId": ""
-  },
-  {
     "id": "admin1",
     "username": "admin",
     "password": "admin123",
     "role": "admin",
-    "sessionId": "session_514c1b3bc60417384625fe9f6e5634b8"
+    "sessionId": "session_b6221c9e1326a5027db174106d46e4db"
   }
 ]

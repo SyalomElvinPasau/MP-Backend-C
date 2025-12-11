@@ -39,11 +39,11 @@ export async function renderHomePage(request, response) {
                 
 
                 <div class="form-header">
-                    <p class="caption">Compose Comment:</p>
+                    <p class="caption">Create Post:</p>
                 </div>
 
                 <!-- text -->
-                <textarea id="text" name="text" placeholder="Write a comment..." maxlength="1000"></textarea>
+                <textarea id="text" name="text" placeholder="Write a post..." maxlength="1000"></textarea>
 
                 <!-- img preview -->
                 <img id="preview" class="image-preview" style="display:none;">
@@ -53,7 +53,7 @@ export async function renderHomePage(request, response) {
 
                 <div class="actions">
                     <button id="submitBtn" type="submit" class="btn pill">
-                        Publish Comment
+                        Publish Post
                     </button>
 
                     <button id="clearBtn" type="button" class="btn pill ghost">
