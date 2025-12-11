@@ -1,5 +1,40 @@
 [
   {
+    "id": "p5",
+    "userId": "admin1",
+    "content": "test",
+    "imgUrl": "/uploads/post_p5.webp",
+    "likes": [],
+    "comments": [
+      {
+        "id": "c1",
+        "userId": "admin1",
+        "content": "test",
+        "imgUrl": null
+      },
+      {
+        "id": "c2",
+        "userId": "admin1",
+        "content": "ettete",
+        "imgUrl": "/uploads/comment_p5_2.webp"
+      },
+      {
+        "id": "c3",
+        "userId": "admin1",
+        "content": "test",
+        "imgUrl": "/uploads/comment_p5_3.webp"
+      }
+    ]
+  },
+  {
+    "id": "p4",
+    "userId": "admin1",
+    "content": "test",
+    "imgUrl": "/uploads/1765427718918-svm.jpg",
+    "likes": [],
+    "comments": []
+  },
+  {
     "id": "p2",
     "userId": "u2",
     "content": "I love learning JavaScript!",
