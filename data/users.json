@@ -2,7 +2,7 @@
   {
     "id": "u1",
     "username": "alice",
-    "password": "$2b$10$o7EwNJITnMUjBvZM4BRKheIwY4olB7b7kvTQ08/zlZEF.bouLZEOK", 
+    "password": "$2b$10$o7EwNJITnMUjBvZM4BRKheIwY4olB7b7kvTQ08/zlZEF.bouLZEOK",
     "password_note": "12345",
     "role": "user",
     "sessionId": ""
@@ -10,7 +10,7 @@
   {
     "id": "u2",
     "username": "bob",
-    "password": "$2b$10$IWtp7NOGIAISNlBdxlKkB.SptnI8gAb4SwwpNe.zbpfV2BBrgW.Zu", 
+    "password": "$2b$10$IWtp7NOGIAISNlBdxlKkB.SptnI8gAb4SwwpNe.zbpfV2BBrgW.Zu",
     "password_note": "password",
     "role": "user",
     "sessionId": ""
@@ -18,7 +18,7 @@
   {
     "id": "u3",
     "username": "charlie",
-    "password": "$2b$10$8m5r8/tVD4Cd265ptCzhq.eWXW9hIYpWMHQBW/2IVdk.6T4GgKcIm", 
+    "password": "$2b$10$8m5r8/tVD4Cd265ptCzhq.eWXW9hIYpWMHQBW/2IVdk.6T4GgKcIm",
     "password_note": "qwerty",
     "role": "user",
     "sessionId": ""
@@ -26,9 +26,9 @@
   {
     "id": "admin1",
     "username": "admin",
-    "password": "$2b$10$N9D0sbKx48xSQGuUtRJkzu9kmZK0QhXtGcdR0AivW09rZ82BUDgKO", 
+    "password": "$2b$10$N9D0sbKx48xSQGuUtRJkzu9kmZK0QhXtGcdR0AivW09rZ82BUDgKO",
     "password_note": "admin123",
     "role": "admin",
-    "sessionId": ""
+    "sessionId": "session_196037fcac3be491de57048d0832d1c1"
   }
 ]

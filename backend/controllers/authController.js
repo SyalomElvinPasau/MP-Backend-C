@@ -1,5 +1,5 @@
 import { readFile } from "fs/promises";
-import { getUserFromCookies, parseCookies } from "../utils/cookies.js";
+import { createCookie, deleteCookie, getUserFromCookies, parseCookies } from "../utils/cookies.js";
 import { generateSessionId, parseForm } from "../utils/helpers.js";
 import { readJSON, writeJSON } from "../utils/json.js";
 import { fileURLToPath } from "url";
@@ -72,8 +72,12 @@ export function login(request, response) {
         const sessionId = generateSessionId();
         await createSession(sessionId, user.id);
 
+        user.sessionId = sessionId;
+        await writeJSON(USERS_JSON, users);
+
+        const cookie = createCookie('sessionId', sessionId)
         response.writeHead(302, {
-            "Set-Cookie": `sessionId=${sessionId}; HttpOnly; Path=/; SameSite=Strict; Max-Age=1800`,
+            "Set-Cookie": cookie,
             "Location": "/"
         })
         return response.end();
@@ -90,8 +94,10 @@ export async function logout(request, response) {
         console.log("Session deleted:", sessionId);
     }
 
+    const clearCookie = deleteCookie("sessionId");
+
     response.writeHead(302, {
-        "Set-Cookie": "sessionId=; HttpOnly; Path=/; SameSite=Strict; Max-Age=0",
+        "Set-Cookie": clearCookie,
         "Location": "/login"
     });
 

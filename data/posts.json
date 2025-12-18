@@ -39,7 +39,11 @@
     "userId": "u2",
     "content": "I love learning JavaScript!",
     "imgUrl": "",
-    "likes": [],
+    "likes": [
+      {
+        "id": "admin1"
+      }
+    ],
     "comments": []
   },
   {
@@ -48,7 +52,10 @@
     "content": "Anyone up for coffee later?",
     "imgUrl": "",
     "likes": [
-      "u1"
+      "u1",
+      {
+        "id": "admin1"
+      }
     ],
     "comments": [
       {
