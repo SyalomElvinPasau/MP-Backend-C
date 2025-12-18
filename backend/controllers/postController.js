@@ -350,34 +350,33 @@ export async function createNewPost(request, response) {
 
         let imgFile = null;
 
-            let imgUrl = "";
-            if (imgFile) {
-                const uniqueID = generateId(await readJSON(POSTS_JSON)); // Atau UUID
-                const originalExt = path.extname(imgFile.originalFilename);
-                const finalFileName = `post_${uniqueID}.webp`; // Simpan sebagai WEBP
-                
-                // Panggil fungsi optimasi
-                const optimizedFileName = await optimizeUserImage(imgFile.filepath, finalFileName, uploadDir);
+        let imgUrl = "";
+        if (imgFile) {
+            const uniqueID = generateId(await readJSON(POSTS_JSON)); // Atau UUID
+            const originalExt = path.extname(imgFile.originalFilename);
+            const finalFileName = `post_${uniqueID}.webp`; // Simpan sebagai WEBP
+            
+            // Panggil fungsi optimasi
+            const optimizedFileName = await optimizeUserImage(imgFile.filepath, finalFileName, uploadDir);
 
-                if (optimizedFileName) {
-                    imgUrl = `/uploads/${optimizedFileName}`;
-                } else {
-                    // Jika optimasi gagal, post dibuat tanpa gambar atau batalkan post (pilih salah satu)
-                    console.warn("Optimasi gambar gagal, post dibuat tanpa gambar.");
-                    imgUrl = ""; 
-                }
-            }
-
-            // If size > 0, it's a real file
-            if (f.size > 0) {
-                imgFile = f;
+            if (optimizedFileName) {
+                imgUrl = `/uploads/${optimizedFileName}`;
             } else {
-                // delete empty auto-created file
-                try { fs.unlinkSync(f.filepath); } catch { }
+                // Jika optimasi gagal, post dibuat tanpa gambar atau batalkan post (pilih salah satu)
+                console.warn("Optimasi gambar gagal, post dibuat tanpa gambar.");
+                imgUrl = ""; 
             }
         }
 
-        const imgUrl = imgFile ? `/uploads/${imgFile.newFilename}` : null;
+        // If size > 0, it's a real file
+        if (files.size > 0) {
+            imgFile = f;
+        } else {
+            // delete empty auto-created file
+            try { fs.unlinkSync(f.filepath); } catch { }
+        }
+
+        imgUrl = imgFile ? `/uploads/${imgFile.newFilename}` : null;
 
 
         // Read DB
