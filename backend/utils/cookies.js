@@ -9,6 +9,46 @@ const __dirname = dirname(__filename);
 const USERS_PATH = join(__dirname, "../../data/users.json");
 const SESSION = join(__dirname, "../../data/session.json");
 
+const COOKIE_CONFIG = {
+    httpOnly: true,
+    secure,
+    sameSite: 'Strict',
+    maxAge: 24 * 60 * 60,
+    path: '/'
+};
+
+export function createCookie(name, value, options = {}) {
+    const config = { ...COOKIE_CONFIG, ...options };
+    
+    let cookieString = `${name}=${value}`;
+    
+    if (config.httpOnly) {
+        cookieString += '; HttpOnly';
+    }
+    
+    if (config.secure) {
+        cookieString += '; Secure';
+    }
+    
+    if (config.sameSite) {
+        cookieString += `; SameSite=${config.sameSite}`;
+    }
+    
+    if (config.maxAge !== undefined) {
+        cookieString += `; Max-Age=${config.maxAge}`;
+    }
+    
+    if (config.path) {
+        cookieString += `; Path=${config.path}`;
+    }
+    
+    return cookieString;
+}
+
+export function deleteCookie(name) {
+    return createCookie(name, '', { maxAge: 0 });
+}
+
 export function parseCookies(request) {
     const cookieHeader = request.headers?.cookie;
 
