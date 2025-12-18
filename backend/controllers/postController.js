@@ -20,8 +20,148 @@ const USERS_JSON = join(__dirname, "../../data/users.json");
 
 const uploadDir = join(__dirname, "../../frontend/uploads");
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
 //TODO
 //Implement data rendering logic
+// export async function renderCommentPage(request, response, postId) {
+//     const user = await getUserFromCookies(request);
+//     if (!user) {
+//         response.writeHead(302, { Location: "/login" });
+//         return response.end();
+//     }
+
+//     let html;
+//     try {
+//         html = await readFile(COMMENT_HTML, "utf8");
+//     } catch (error) {
+//         response.writeHead(500, { "Content-Type": "text/plain" });
+//         return response.end("Error Loading Comments");
+//     }
+
+//     const posts = await readJSON(POSTS_JSON);
+//     const users = await readJSON(USERS_JSON);
+
+
+//     const post = posts.find(p => p.id === postId);
+//     if (!post) {
+//         response.writeHead(404, { "Content-Type": "text/plain" });
+//         return response.end("Post not found");
+//     }
+
+
+//     //post.likes.find(u => u.id === u)
+
+//     const postUser = users.find(u => u.id === post.userId);
+
+//     // Render all comments
+//     const commentsHTML = post.comments.map(comment => {
+//         const commentUser = users.find(u => u.id === comment.userId);
+
+
+//         return `
+//             <div class="comment-item">
+//                 <div class="comment-user">
+//                     <img class="comment-profile" src="/icon/profile.png">
+//                     <p class="comment-username">${commentUser?.username || "Unknown User"}</p>
+//                 </div>
+//                 <p class="comment-content">${comment.content}</p>
+//                 ${comment.imgUrl ? `<img src="${comment.imgUrl}">` : ""}
+//             </div>
+//         `;
+//     }).join("");
+
+//     const liked = post.likes.some(u => u.id === user.id);
+//     // sections
+//     const postsHTML = `
+//             <article class="post">
+//                 <div class="username">
+//                     <img class="profile-pic" src="icon/profile.png">
+//                     <p>${postUser?.username || "Unknown User"}</p>
+//                 </div>
+
+//                 <div class="posted-content">
+//                     <p class="caption">${post.content}</p>
+//                     ${post.imgUrl ? `<img src="${post.imgUrl}">` : ""}
+//                 </div>
+
+//                 <div class="activity">
+//                     <div class="like">
+//                         <img src="${liked ? '/icon/heart-filled.png' : '/icon/heart.png'}" class="like-btn" data-post-id="${post.id}">
+//                         <p>${post.likes.length}</p>
+//                     </div>
+//                 </div>
+//             </article>
+//         `;
+
+//     const allCommentsHTML = `
+//             <section class="comments-section">
+//                 <h3>Comments</h3>
+//                 ${commentsHTML || "<p>No comments yet.</p>"}
+//             </section>
+//         `;
+
+//     const commentFormHTML = `
+//             <form id="commentForm"
+//                 class="comment-form"
+//                 method="POST"
+//                 enctype="multipart/form-data"
+//                 action="/submit-comment?postId=${postId}">
+
+//                 <div class="form-header">
+//                     <p class="caption">Compose Comment:</p>
+//                 </div>
+
+//                 <!-- text -->
+//                 <textarea id="text" name="text" placeholder="Write a comment..." maxlength="1000"></textarea>
+
+//                 <!-- img preview -->
+//                 <img id="preview" class="image-preview" style="display:none;">
+
+//                 <!-- img upload -->
+//                 <input id="image" name="image" type="file" accept="image/*">
+
+//                 <div class="actions">
+//                     <button id="submitBtn" type="submit" class="btn pill">
+//                         Publish Comment
+//                     </button>
+
+//                     <button id="clearBtn" type="button" class="btn pill ghost">
+//                         Clear Form
+//                     </button>
+//                 </div>
+//             </form>
+//         `;
+//     html = html.replace("{{POST}}", postsHTML);
+//     html = html.replace("{{COMMENTS}}", allCommentsHTML);
+//     html = html.replace("{{FORM}}", commentFormHTML);
+
+//     if (user.role === "admin") {
+//         html = html.replace("{{ADMIN_BUTTON}}", `
+
+
+
+//         <a href="/user-list" class="menu-item user-list">
+
+
+//         <img class="menu-logo" src="/icon/user-list.png" alt="User-List">
+
+
+//         <p>User List</p>
+
+
+//     </a>`)
+
+//     } else {
+//         html = html.replace("{{ADMIN_BUTTON}}", "");
+//     }
+
+//     response.writeHead(200, { "Content-Type": "text/html" });
+//     response.end(html);
+// }
 export async function renderCommentPage(request, response, postId) {
     const user = await getUserFromCookies(request);
     if (!user) {
@@ -29,6 +169,7 @@ export async function renderCommentPage(request, response, postId) {
         return response.end();
     }
 
+    // Read HTML template
     let html;
     try {
         html = await readFile(COMMENT_HTML, "utf8");
@@ -37,9 +178,9 @@ export async function renderCommentPage(request, response, postId) {
         return response.end("Error Loading Comments");
     }
 
+    // Load data
     const posts = await readJSON(POSTS_JSON);
     const users = await readJSON(USERS_JSON);
-
 
     const post = posts.find(p => p.id === postId);
     if (!post) {
@@ -47,117 +188,127 @@ export async function renderCommentPage(request, response, postId) {
         return response.end("Post not found");
     }
 
-
-    //post.likes.find(u => u.id === u)
-
     const postUser = users.find(u => u.id === post.userId);
-
-    // Render all comments
-    const commentsHTML = post.comments.map(comment => {
-        const commentUser = users.find(u => u.id === comment.userId);
-
-
-        return `
-            <div class="comment-item">
-                <div class="comment-user">
-                    <img class="comment-profile" src="/icon/profile.png">
-                    <p class="comment-username">${commentUser?.username || "Unknown User"}</p>
-                </div>
-                <p class="comment-content">${comment.content}</p>
-                ${comment.imgUrl ? `<img src="${comment.imgUrl}">` : ""}
-            </div>
-        `;
-    }).join("");
-
     const liked = post.likes.some(u => u.id === user.id);
-    // sections
-    const postsHTML = `
-            <article class="post">
-                <div class="username">
-                    <img class="profile-pic" src="icon/profile.png">
-                    <p>${postUser?.username || "Unknown User"}</p>
-                </div>
 
-                <div class="posted-content">
-                    <p class="caption">${post.content}</p>
-                    ${post.imgUrl ? `<img src="${post.imgUrl}">` : ""}
-                </div>
+    const [beforeComments, afterComments] = html.split("{{COMMENTS}}");
 
-                <div class="activity">
-                    <div class="like">
-                        <img src="${liked ? '/icon/heart-filled.png' : '/icon/heart.png'}" class="like-btn" data-post-id="${post.id}">
-                        <p>${post.likes.length}</p>
-                    </div>
-                </div>
-            </article>
-        `;
-
-    const allCommentsHTML = `
-            <section class="comments-section">
-                <h3>Comments</h3>
-                ${commentsHTML || "<p>No comments yet.</p>"}
-            </section>
-        `;
-
-    const commentFormHTML = `
-            <form id="commentForm"
-                class="comment-form"
-                method="POST"
-                enctype="multipart/form-data"
-                action="/submit-comment?postId=${postId}">
-
-                <div class="form-header">
-                    <p class="caption">Compose Comment:</p>
-                </div>
-
-                <!-- text -->
-                <textarea id="text" name="text" placeholder="Write a comment..." maxlength="1000"></textarea>
-
-                <!-- img preview -->
-                <img id="preview" class="image-preview" style="display:none;">
-
-                <!-- img upload -->
-                <input id="image" name="image" type="file" accept="image/*">
-
-                <div class="actions">
-                    <button id="submitBtn" type="submit" class="btn pill">
-                        Publish Comment
-                    </button>
-
-                    <button id="clearBtn" type="button" class="btn pill ghost">
-                        Clear Form
-                    </button>
-                </div>
-            </form>
-        `;
-    html = html.replace("{{POST}}", postsHTML);
-    html = html.replace("{{COMMENTS}}", allCommentsHTML);
-    html = html.replace("{{FORM}}", commentFormHTML);
-
-    if (user.role === "admin") {
-        html = html.replace("{{ADMIN_BUTTON}}", `
-
-
-
-        <a href="/user-list" class="menu-item user-list">
-
-
-        <img class="menu-logo" src="/icon/user-list.png" alt="User-List">
-
-
-        <p>User List</p>
-
-
-    </a>`)
-
-    } else {
-        html = html.replace("{{ADMIN_BUTTON}}", "");
+    if (!afterComments) {
+        throw new Error("Template missing {{COMMENTS}} placeholder");
     }
 
-    response.writeHead(200, { "Content-Type": "text/html" });
-    response.end(html);
-}
 
+    // Render main post HTML
+    const postHTML = `
+        <article class="post">
+            <div class="username">
+                <img class="profile-pic" src="/icon/profile.png">
+                <p>${postUser?.username || "Unknown User"}</p>
+            </div>
+
+            <div class="posted-content">
+                <p class="caption">${post.content}</p>
+                ${post.imgUrl ? `<img src="${post.imgUrl}">` : ""}
+            </div>
+
+            <div class="activity">
+                <div class="like">
+                    <img src="${liked ? '/icon/heart-filled.png' : '/icon/heart.png'}"
+                         class="like-btn"
+                         data-post-id="${post.id}">
+                    <p>${post.likes.length}</p>
+                </div>
+            </div>
+        </article>
+    `;
+
+    // Comment form HTML
+    const commentFormHTML = `
+        <form id="commentForm"
+            class="comment-form"
+            method="POST"
+            enctype="multipart/form-data"
+            action="/submit-comment?postId=${postId}">
+
+            <div class="form-header">
+                <p class="caption">Compose Comment:</p>
+            </div>
+
+            <textarea id="text" name="text" placeholder="Write a comment..." maxlength="1000"></textarea>
+
+            <img id="preview" class="image-preview" style="display:none;">
+
+            <input id="image" name="image" type="file" accept="image/*">
+
+            <div class="actions">
+                <button id="submitBtn" type="submit" class="btn pill">
+                    Publish Comment
+                </button>
+                <button id="clearBtn" type="button" class="btn pill ghost">
+                    Clear Form
+                </button>
+            </div>
+        </form>
+    `;
+
+    // Insert main post and form into header section
+    let headerHTML = beforeComments
+        .replace("{{POST}}", postHTML)
+        .replace("{{FORM}}", commentFormHTML);
+
+    // Insert admin button
+    if (user.role === "admin") {
+        headerHTML = headerHTML.replace("{{ADMIN_BUTTON}}", `
+            <a href="/user-list" class="menu-item user-list">
+                <img class="menu-logo" src="/icon/user-list.png" alt="User-List">
+                <p>User List</p>
+            </a>
+        `);
+    } else {
+        headerHTML = headerHTML.replace("{{ADMIN_BUTTON}}", "");
+    }
+
+
+    response.writeHead(200, { "Content-Type": "text/html" });
+
+    // 1) Send header + post + opening of comments section
+    response.write(headerHTML);
+
+    response.write(`
+        <section class="comments-section">
+            <h3>Comments</h3>
+    `);
+
+    // 2) Stream each comment independently
+    if (post.comments.length === 0) {
+        response.write(`<p>No comments yet.</p>`);
+    } else {
+        for (const comment of post.comments) {
+            const commentUser = users.find(u => u.id === comment.userId);
+
+            const commentChunk = `
+                <div class="comment-item">
+                    <div class="comment-user">
+                        <img class="comment-profile" src="/icon/profile.png">
+                        <p class="comment-username">${commentUser?.username || "Unknown User"}</p>
+                    </div>
+                    <p class="comment-content">${comment.content}</p>
+                    ${comment.imgUrl ? `<img src="${comment.imgUrl}">` : ""}
+                </div>
+            `;
+
+            // Send chunk
+            // await sleep(500);
+            response.write(commentChunk);
+        }
+    }
+
+    // 3) Finish comments section + footer
+    response.end(`
+        </section>
+        ${afterComments}
+    `);
+}
 
 export async function createNewPost(request, response) {
     const user = await getUserFromCookies(request);
@@ -180,33 +331,24 @@ export async function createNewPost(request, response) {
     });
 
     form.parse(request, async (err, fields, files) => {
-                
+
         if (err) {
-            console.error("Form parsing error:", err);
-            response.writeHead(400, { "Content-Type": "application/json" });
-            return response.end(JSON.stringify({ message: "Error parsing form data" }));
+            response.writeHead(400);
+            return response.end("Error parsing form");
         }
 
-        try {
-            let rawContent = fields.content; 
-            let content = "";
+        let rawText = fields.text;
+        let text = "";
 
-            if (Array.isArray(rawContent)) {
-                content = rawContent[0]?.trim() || "";
-            } else if (typeof rawContent === "string") {
-                content = rawContent.trim();
-            }
+        if (Array.isArray(rawText)) {
+            text = rawText[0]?.trim() || "";
+        } else if (typeof rawText === "string") {
+            text = rawText.trim();
+        } else {
+            text = "";
+        }
 
-            let imgFile = null;
-            if (files.image) {
-                let f = Array.isArray(files.image) ? files.image[0] : files.image;
-                
-                if (f.size > 0) {
-                    imgFile = f;
-                } else {
-                    try { fs.unlinkSync(f.filepath); } catch (e) { }
-                }
-            }
+        let imgFile = null;
 
             let imgUrl = "";
             if (imgFile) {
@@ -226,43 +368,52 @@ export async function createNewPost(request, response) {
                 }
             }
 
-            if (!content && !imgUrl) {
-                response.writeHead(400, { "Content-Type": "application/json" });
-                return response.end(JSON.stringify({ message: "Post content or image is required" }));
+            // If size > 0, it's a real file
+            if (f.size > 0) {
+                imgFile = f;
+            } else {
+                // delete empty auto-created file
+                try { fs.unlinkSync(f.filepath); } catch { }
             }
-
-            const jsonData = await readJSON("../data/posts.json");
-            const newId = generateId(jsonData);
-
-            const newData = {
-                id: newId,
-                userId: user.id,
-                content: content,
-                imgUrl: imgUrl, 
-                likes: [],
-                comments: []    
-            }
-
-            console.log("Creating new post:", newData);
-
-            jsonData.unshift(newData);
-            await writeJSON("../data/posts.json", jsonData);
-
-            response.writeHead(201, { "Content-Type": "application/json" });
-            return response.end(JSON.stringify({ 
-                message: "Post created successfully",
-                data: newData
-            }));
-
-        } catch (error) {
-            console.error("Error inside createNewPost:", error);
-            response.writeHead(500, { "Content-Type": "application/json" });
-            return response.end(JSON.stringify({ message: "Error creating post" }));
         }
-    });
 
+        const imgUrl = imgFile ? `/uploads/${imgFile.newFilename}` : null;
+
+
+        // Read DB
+        const posts = await readJSON(POSTS_JSON);
+
+        // Logged in user
+        const user = await getUserFromCookies(request);
+        if (!user) {
+            response.writeHead(401);
+            return response.end("Unauthorized");
+        }
+
+
+        const postId = generateSessionId();
+        const newPost = {
+            id: "p" + postId,   // string
+            userId: user.id,           // string
+            content: text,             // string
+            imgUrl: imgUrl,             // string | null
+            likes: [],
+            comments: []
+        };
+
+        // Insert new post
+        posts.push(newPost);
+
+        // Save JSON
+        await writeJSON(POSTS_JSON, posts);
+
+        // Redirect back to comment page
+        response.writeHead(302, {
+            Location: `/`
+        });
+        return response.end();
+    })
 }
-
 
 
 export async function createNewComment(request, response, postId) {

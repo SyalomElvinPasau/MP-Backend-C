@@ -55,6 +55,24 @@
         "id": "c1",
         "userId": "u1",
         "content": "Sure, where?"
+      },
+      {
+        "id": "c2",
+        "userId": "u1",
+        "content": "test",
+        "imgUrl": null
+      },
+      {
+        "id": "c3",
+        "userId": "u1",
+        "content": "test",
+        "imgUrl": null
+      },
+      {
+        "id": "c4",
+        "userId": "u1",
+        "content": "",
+        "imgUrl": "/uploads/ierrmwaf137a8su8giymt9f4j.png"
       }
     ]
   }
