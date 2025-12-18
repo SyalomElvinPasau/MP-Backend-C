@@ -73,7 +73,59 @@
         "userId": "u1",
         "content": "",
         "imgUrl": "/uploads/ierrmwaf137a8su8giymt9f4j.png"
+      },
+      {
+        "id": "c5",
+        "userId": "u2",
+        "content": "hi",
+        "imgUrl": null
+      },
+      {
+        "id": "c6",
+        "userId": "u2",
+        "content": "ini map ya",
+        "imgUrl": "/uploads/comment_p3_6.webp"
       }
     ]
+  },
+  {
+    "id": "psession_033d49883b6e99cb77343279403e1133",
+    "userId": "u2",
+    "content": "",
+    "imgUrl": "/uploads/post_p6.webp",
+    "likes": [],
+    "comments": []
+  },
+  {
+    "id": "psession_f0040e366d78f2576297063d3816dc57",
+    "userId": "u2",
+    "content": "",
+    "imgUrl": "/uploads/post_pNaN.webp",
+    "likes": [],
+    "comments": []
+  },
+  {
+    "id": "psession_50ac457784d57d67749631d1a7cac77f",
+    "userId": "u2",
+    "content": "",
+    "imgUrl": null,
+    "likes": [],
+    "comments": []
+  },
+  {
+    "id": "psession_5931ae2d61a5bc99e6385f4a1eb01952",
+    "userId": "u2",
+    "content": "",
+    "imgUrl": "/uploads/post_pNaN.webp",
+    "likes": [],
+    "comments": []
+  },
+  {
+    "id": "psession_03b02812a60b45050cf3383739e94c70",
+    "userId": "u2",
+    "content": "",
+    "imgUrl": "/uploads/post_pNaN.webp",
+    "likes": [],
+    "comments": []
   }
 ]

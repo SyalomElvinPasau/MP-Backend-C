@@ -2,29 +2,33 @@
   {
     "id": "u1",
     "username": "alice",
-    "password": "12345",
+    "password": "$2b$10$o7EwNJITnMUjBvZM4BRKheIwY4olB7b7kvTQ08/zlZEF.bouLZEOK", 
+    "password_note": "12345",
     "role": "user",
-    "sessionId": "session_4fda199eac961970c83158e2820485af"
+    "sessionId": ""
   },
   {
     "id": "u2",
     "username": "bob",
-    "password": "password",
+    "password": "$2b$10$IWtp7NOGIAISNlBdxlKkB.SptnI8gAb4SwwpNe.zbpfV2BBrgW.Zu", 
+    "password_note": "password",
     "role": "user",
     "sessionId": ""
   },
   {
     "id": "u3",
     "username": "charlie",
-    "password": "qwerty",
+    "password": "$2b$10$8m5r8/tVD4Cd265ptCzhq.eWXW9hIYpWMHQBW/2IVdk.6T4GgKcIm", 
+    "password_note": "qwerty",
     "role": "user",
     "sessionId": ""
   },
   {
     "id": "admin1",
     "username": "admin",
-    "password": "admin123",
+    "password": "$2b$10$N9D0sbKx48xSQGuUtRJkzu9kmZK0QhXtGcdR0AivW09rZ82BUDgKO", 
+    "password_note": "admin123",
     "role": "admin",
-    "sessionId": "session_664cd88ca601bed9f6b50af3f0cbb62c"
+    "sessionId": ""
   }
 ]
