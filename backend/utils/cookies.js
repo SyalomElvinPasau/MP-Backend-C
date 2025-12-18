@@ -9,7 +9,6 @@ const USERS_PATH = join(__dirname, "../../data/users.json");
 
 const COOKIE_CONFIG = {
     httpOnly: true,
-    secure: 'Secure',
     sameSite: 'Strict',
     maxAge: 24 * 60 * 60,
     path: '/'
@@ -39,7 +38,7 @@ export function createCookie(name, value, options = {}) {
     if (config.path) {
         cookieString += `; Path=${config.path}`;
     }
-    
+
     return cookieString;
 }
 
