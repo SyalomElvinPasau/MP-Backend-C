@@ -1,14 +1,17 @@
 import { readFile } from "fs/promises";
-import { getUserFromCookies } from "../utils/cookies.js";
+import { getUserFromCookies, parseCookies } from "../utils/cookies.js";
 import { generateSessionId, parseForm } from "../utils/helpers.js";
 import { readJSON, writeJSON } from "../utils/json.js";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import { createSession, getSession, deleteSession } from "./sessionController.js";
+import bcrypt from "bcrypt";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const LOGIN_HTML = join(__dirname, "../../frontend/login.html");
 const USERS_JSON = join(__dirname, "../../data/users.json");
+const SESSION = join(__dirname, "../../data/session.json");
 
 export async function renderLoginPage(request, response) {
     const user = await getUserFromCookies(request);
@@ -51,26 +54,26 @@ export function login(request, response) {
         const users = await readJSON(USERS_JSON);
 
         const user = users.find(
-            u => u.username === username && u.password === password
+            u => u.username === username
         );
 
-        //TODO
         //if invalid login, keep user on login then maybe add error text or something too
         if (!user) {
             response.writeHead(302, { "Location": "/login" });
             return response.end();
         }
 
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            response.writeHead(302, { "Location": "/login" });
+            return response.end();
+        }
+
         const sessionId = generateSessionId();
-
-        user.sessionId = sessionId;
-
-        await writeJSON(USERS_JSON, users);
-
-
+        await createSession(sessionId, user.id);
 
         response.writeHead(302, {
-            "Set-Cookie": `sessionId=${sessionId}; HttpOnly; Path=/`,
+            "Set-Cookie": `sessionId=${sessionId}; HttpOnly; Path=/; SameSite=Strict; Max-Age=1800`,
             "Location": "/"
         })
         return response.end();
@@ -79,27 +82,16 @@ export function login(request, response) {
 }
 
 export async function logout(request, response) {
-    const users = await readJSON(USERS_JSON);
-    const user = await getUserFromCookies(request);
+    const cookies = parseCookies(request);
+    const sessionId = cookies.sessionId;
 
-    if (user) {
-
-        const index = users.findIndex(u => u.id === user.id);
-
-        if (index !== -1) {
-            users[index].sessionId = "";
-            await writeJSON(USERS_JSON, users);
-            console.log("User logged out:", users[index].username);
-        } else {
-            console.log("Logout: user not found in users.json anymore.");
-        }
-    } else {
-        console.log("Logout called but no active session.");
+    if (sessionId) {
+        await deleteSession(sessionId);
+        console.log("Session deleted:", sessionId);
     }
 
-    // Clear the cookie 
     response.writeHead(302, {
-        "Set-Cookie": "sessionId=; HttpOnly; Path=/; Max-Age=0",
+        "Set-Cookie": "sessionId=; HttpOnly; Path=/; SameSite=Strict; Max-Age=0",
         "Location": "/login"
     });
 

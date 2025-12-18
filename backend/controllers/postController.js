@@ -303,7 +303,6 @@ export async function renderCommentPage(request, response, postId) {
         }
     }
 
-    // 3) Finish comments section + footer
     response.end(`
         </section>
         ${afterComments}
@@ -316,104 +315,67 @@ export async function createNewPost(request, response) {
         response.writeHead(302, { Location: "/login" });
         return response.end();
     }
-    
+
     const form = formidable({
         multiples: false,
         uploadDir: uploadDir,
-        // Hapus keepExtensions: true karena kita akan menyimpan sebagai WebP
-        // keepExtensions: true, 
         allowEmptyFiles: true,
         minFileSize: 0,
-        // filename: (name, ext, part, form) => {
-        //     const safeName = part.originalFilename.replace(/\s+/g, "_");
-        //     return `${Date.now()}-${safeName}`;
-        // }
     });
 
     form.parse(request, async (err, fields, files) => {
-
         if (err) {
             response.writeHead(400);
             return response.end("Error parsing form");
         }
 
-        let rawText = fields.text;
-        let text = "";
+        const rawText = fields.text;
+        const text = Array.isArray(rawText) ? rawText[0]?.trim() : (rawText?.trim() || "");
 
-        if (Array.isArray(rawText)) {
-            text = rawText[0]?.trim() || "";
-        } else if (typeof rawText === "string") {
-            text = rawText.trim();
-        } else {
-            text = "";
-        }
+        const uploadedFile = files.image ? (Array.isArray(files.image) ? files.image[0] : files.image) : null;
+        
+        let imgUrl = null;
 
-        let imgFile = null;
+        if (uploadedFile && uploadedFile.size > 0) {
+            try {
+                const posts = await readJSON(POSTS_JSON);
+                const uniqueID = generateId(posts); 
+                const finalFileName = `post_${uniqueID}.webp`;
 
-        let imgUrl = "";
-        if (imgFile) {
-            const uniqueID = generateId(await readJSON(POSTS_JSON)); // Atau UUID
-            const originalExt = path.extname(imgFile.originalFilename);
-            const finalFileName = `post_${uniqueID}.webp`; // Simpan sebagai WEBP
-            
-            // Panggil fungsi optimasi
-            const optimizedFileName = await optimizeUserImage(imgFile.filepath, finalFileName, uploadDir);
+                const optimizedFileName = await optimizeUserImage(uploadedFile.filepath, finalFileName, uploadDir);
 
-            if (optimizedFileName) {
-                imgUrl = `/uploads/${optimizedFileName}`;
-            } else {
-                // Jika optimasi gagal, post dibuat tanpa gambar atau batalkan post (pilih salah satu)
-                console.warn("Optimasi gambar gagal, post dibuat tanpa gambar.");
-                imgUrl = ""; 
+                if (optimizedFileName) {
+                    imgUrl = `/uploads/${optimizedFileName}`;
+                }
+                
+                if (fs.existsSync(uploadedFile.filepath)) {
+                    fs.unlinkSync(uploadedFile.filepath);
+                }
+            } catch (optErr) {
+                console.error("Gagal optimasi:", optErr);
             }
+        } else if (uploadedFile) {
+            if (fs.existsSync(uploadedFile.filepath)) fs.unlinkSync(uploadedFile.filepath);
         }
 
-        // If size > 0, it's a real file
-        if (files.size > 0) {
-            imgFile = f;
-        } else {
-            // delete empty auto-created file
-            try { fs.unlinkSync(f.filepath); } catch { }
-        }
-
-        imgUrl = imgFile ? `/uploads/${imgFile.newFilename}` : null;
-
-
-        // Read DB
         const posts = await readJSON(POSTS_JSON);
-
-        // Logged in user
-        const user = await getUserFromCookies(request);
-        if (!user) {
-            response.writeHead(401);
-            return response.end("Unauthorized");
-        }
-
-
         const postId = generateSessionId();
         const newPost = {
-            id: "p" + postId,   // string
-            userId: user.id,           // string
-            content: text,             // string
-            imgUrl: imgUrl,             // string | null
+            id: "p" + postId,
+            userId: user.id,
+            content: text,
+            imgUrl: imgUrl,
             likes: [],
             comments: []
         };
 
-        // Insert new post
         posts.push(newPost);
-
-        // Save JSON
         await writeJSON(POSTS_JSON, posts);
 
-        // Redirect back to comment page
-        response.writeHead(302, {
-            Location: `/`
-        });
+        response.writeHead(302, { Location: `/` });
         return response.end();
-    })
+    });
 }
-
 
 export async function createNewComment(request, response, postId) {
     const form = formidable({
