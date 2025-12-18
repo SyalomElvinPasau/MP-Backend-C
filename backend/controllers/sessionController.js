@@ -5,7 +5,7 @@ import { dirname, join } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const SESSION = join(__dirname, "../../data/session.json");
-const DURASI_SESSION = 30 * 60 * 1000;
+const DURASI_SESSION = 1 * 60 * 1000;
 
 export async function createSession(sessionId, userId) {
     const session = await readJSON(SESSION);
