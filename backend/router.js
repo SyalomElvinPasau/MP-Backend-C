@@ -14,9 +14,6 @@ const MIME_TYPES = {
     ".css": "text/css",
     ".js": "application/javascript",
     ".png": "image/png",
-    ".jpg": "image/jpeg",
-    ".jpeg": "image/jpeg",
-    ".svg": "image/svg+xml",
     ".webp": "image/webp"
 };
 
